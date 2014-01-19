@@ -1,22 +1,57 @@
-<h2 style="display:inline;">Créer une News</h2>
+<h2>Créer une News</h2>
 <div class="col-md-12 row">
-<input type="" class="" placeholder="Titre de la News" />
+	<div class="col-md-4">
+		<input type="text" class="form-control col-md-4" size="10" id="newsTitle" placeholder="Titre de la News" />
+	</div>
+	<div class="col-md-4">
+		<input type="date" class="form-control col-md-4" size="10" id="newsDate" placeholder="jj/mm/aa" />
+	</div>
 	<button class="btn btn-info pull-right">Nouvelle News</button>
 </div>
+
 <br />
+<br />
+<br />
+
 <div class="col-md-12">
 	<form method="post">
 		<textarea height="500px" ui-tinymce="tinymceOptions" ng-model="tinyMCEcontent"></textarea>
 		<br />
 		<div class="row col-md-12">
-			<input type="file" class="btn btn-primary" value="Ajouter Images" />
+			<input style="display:inline;" type="file" class="btn btn-primary" value="Ajouter Images" />
 
-			<button type="submit" id="sendNews" class="btn btn-info pull-right">Créer nouvelle News</button>
+			<button type="submit" id="newsSend" class="btn btn-info pull-right">Créer nouvelle News</button>
 		</div>
 	</form>
 </div>
 <div class="col-md-12">
 	<hr width="75%" />
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Titre</th>
+				<th>Modifier</th>
+				<th>Supprimer</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>Gentillement est la vertue des méchants</td>
+				<td><a ng-click="" class="btn btn-sm btn-primary">Modifier</a></td>
+				<td><a ng-click="" class="btn btn-sm btn-danger">Supprimer</a></td>
+			</tr>
+			<tr>
+				<td>n.title</td>
+				<td><a ng-click="" class="btn btn-sm btn-primary">Modifier</a></td>
+				<td><a ng-click="" class="btn btn-sm btn-danger">Supprimer</a></td>
+			</tr>
+			<tr>
+				<td>n.title</td>
+				<td><a ng-click="" class="btn btn-sm btn-primary">Modifier</a></td>
+				<td><a ng-click="" class="btn btn-sm btn-danger">Supprimer</a></td>
+			</tr>
+		</tbody>
+	</table>
 	
 </div>
 
