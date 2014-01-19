@@ -1,12 +1,13 @@
 'use strict';
 
-angular.module('adminApp', [
-    'ngCookies',
-    'ngResource',
-    'ngSanitize',
-    'ngRoute',
-    'ui.tinymce',
-])
+angular
+    .module('adminApp', [
+        'ngCookies',
+        'ngResource',
+        'ngSanitize',
+        'ngRoute',
+        'ui.tinymce'
+    ])
     .config(function($routeProvider, $locationProvider) {
         $routeProvider
             .when('/', {
