@@ -36,24 +36,20 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" ng-href="#">Tooski</a>
+            <a class="navbar-brand" ng-href="#">Tooski Administration</a>
           </div>
           <div class="collapse navbar-collapse" collapse="isCollapsed" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-              <li class="ts-nav-link {{{true: 'active', false: ''}[activeCat == 1]}}"><a ng-click="revealPills(1, null);" ng-href="#!/">Actu</a></li>
-              <li class="ts-nav-link {{{true: 'active', false: ''}[activeCat == 2]}}"><a ng-click="revealPills(2, null);" ng-href="#!/Mag">Mag</a></li>
-              <li class="ts-nav-link {{{true: 'active', false: ''}[activeCat == 3]}}"><a ng-click="revealPills(3, resultsCat);">Résultats</a></li>
-              <li class="ts-nav-link {{{true: 'active', false: ''}[activeCat == 4]}}"><a ng-click="revealPills(4, blogsCat);">Blogs</a></li>
-              <li class="ts-nav-link {{{true: 'active', false: ''}[activeCat == 5]}}"><a ng-click="revealPills(5, pagesCat);">À propos</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="http://team.tooski.ch" target="_blank">Tooski Teams</a></li>
+              <li><a ng-href="#!/News">News</a></li>
+              <li><a ng-href="#!/Blog">Blogs</a></li>
+              <li><a ng-href="#!/Pages">Pages</a></li>
+              <li><a ng-href="#!/Ad">Publicité</a></li>
             </ul>
           </div>
         </div>
       </nav>
 
-      
+
 
       <!-- Add your site or application content here -->
       <div class="container" ng-view=""></div>
@@ -89,6 +85,7 @@
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="scripts/app.js"></script>
     <script src="scripts/controllers/main.js"></script>
+    <script src="scripts/services/User.js"></script>
     <!-- endbuild -->
   </body>
   </html>
