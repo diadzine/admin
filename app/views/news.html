@@ -6,7 +6,7 @@
 	<div class="col-md-4">
 		<input type="date" class="form-control col-md-4" size="10" id="newsDate" placeholder="jj/mm/aa" />
 	</div>
-	<button class="btn btn-info pull-right">Nouvelle News</button>
+	<button class="btn btn-info pull-right" ng-click="addNews();">Nouvelle News</button>
 </div>
 
 <br />
@@ -15,13 +15,14 @@
 
 <div class="col-md-12">
 	<form method="post">
-		<textarea height="500px" ui-tinymce="tinymceOptions" ng-model="tinyMCEcontent"></textarea>
+		<textarea id="newsContent" height="500px" ui-tinymce="tinymceOptions" ng-model="tinyMceContent">{{tinyMceContent}}</textarea>
 		<br />
 		<div class="row col-md-12">
 			<input style="display:inline;" type="file" class="btn btn-primary" value="Ajouter Images" />
 
-			<button type="submit" id="newsSend" class="btn btn-info pull-right">Créer nouvelle News</button>
+			<button type="submit" id="newsSend" ng-click="sendNews();" class="btn btn-info pull-right">Créer nouvelle News</button>
 		</div>
+		<input type="hidden" id="newsId" value="-1" />
 	</form>
 </div>
 <div class="col-md-12">
@@ -35,19 +36,9 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td>Gentillement est la vertue des méchants</td>
-				<td><a ng-click="" class="btn btn-sm btn-primary">Modifier</a></td>
-				<td><a ng-click="" class="btn btn-sm btn-danger">Supprimer</a></td>
-			</tr>
-			<tr>
-				<td>n.title</td>
-				<td><a ng-click="" class="btn btn-sm btn-primary">Modifier</a></td>
-				<td><a ng-click="" class="btn btn-sm btn-danger">Supprimer</a></td>
-			</tr>
-			<tr>
-				<td>n.title</td>
-				<td><a ng-click="" class="btn btn-sm btn-primary">Modifier</a></td>
+			<tr ng-repeat="n in news">
+				<td>{{n.title}}</td>
+				<td><a ng-click="modify(n.id);" class="btn btn-sm btn-primary">Modifier</a></td>
 				<td><a ng-click="" class="btn btn-sm btn-danger">Supprimer</a></td>
 			</tr>
 		</tbody>
