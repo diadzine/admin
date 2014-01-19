@@ -19,7 +19,7 @@ angular.module('adminApp')
             var login = User.login(email, password);
 
             if (login.success === true) {
-                $location.path('#!/News');
+                $location.path('/News');
             }
             else {
                 document.getElementById('login-errors').innerHTML = login.error;

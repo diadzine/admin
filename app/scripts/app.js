@@ -4,7 +4,8 @@ angular.module('adminApp', [
     'ngCookies',
     'ngResource',
     'ngSanitize',
-    'ngRoute'
+    'ngRoute',
+    'ui.tinymce',
 ])
     .config(function($routeProvider, $locationProvider) {
         $routeProvider
@@ -13,8 +14,8 @@ angular.module('adminApp', [
                 controller: 'MainCtrl'
             })
             .when('/News', {
-              templateUrl: 'views/news.html',
-              controller: 'NewsCtrl'
+                templateUrl: 'views/news.html',
+                controller: 'NewsCtrl'
             })
             .otherwise({
                 redirectTo: '/'
