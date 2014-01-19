@@ -5,32 +5,61 @@ angular.module('adminApp')
 
         return {
             login: function(email, password) {
-                var error = '';
+                var error = '',
+                    success = true;
 
                 if (email.indexOf('@') === -1) {
-                    error = 'Il ne s\'agit pas d\'un emial valide.';
+                    success = false;
+                    error = 'Il ne s\'agit pas d\'un email valide.';
                 }
 
                 if (password === '') {
+                    success = false;
                     error = 'Le champ mot de passe est vide.';
                 }
 
                 if (email === '') {
+                    success = false;
                     error = 'Le champ email est vide.';
                 }
 
-                // TODO: sync with server.
+                if (success) {
+                    // TODO: sync with server and validate.
+                }
+
                 return {
-                    success: false,
+                    success: success,
                     error: error,
                 };
             },
 
             signup: function(email, password, confirm, name, signature) {
-                var error = '';
+                var error = '',
+                    success = true;
+
+                if (password !== confirm) {
+                    success = false;
+                    error =
+                        'Le mot de passe ne correspond pas à la confirmation.';
+                }
+
+                if (email.indexOf('@') === -1) {
+                    success = false;
+                    error = 'L\'email n\'est pas valide.';
+                }
+
+                if (email === '' || password === '' || confirm === '' ||
+                    name === '' || signature === '') {
+                    success = false;
+                    error = 'Certains champs n\'ont pas été remplis.';
+                }
+
+                if (success) {
+                    // TODO: Implement server sync and validation.
+                }
 
                 return {
-                    success: true,
+                    success: success,
                     error: error,
                 };
             },

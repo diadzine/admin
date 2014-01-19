@@ -12,6 +12,10 @@ angular.module('adminApp', [
                 templateUrl: 'views/main.html',
                 controller: 'MainCtrl'
             })
+            .when('/News', {
+              templateUrl: 'views/news.html',
+              controller: 'NewsCtrl'
+            })
             .otherwise({
                 redirectTo: '/'
             });

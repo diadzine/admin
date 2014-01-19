@@ -40,10 +40,10 @@ angular.module('adminApp')
                 alert(
                     'Merci de votre enregistrement. Vous recevrez un email lorsque votre candidature sera validée.'
                 );
-                $route.reload();
             }
             else {
-                document.getElementById('signup-errors').innerHTML = login.error;
+                document.getElementById('signup-errors').innerHTML = signup
+                    .error;
             }
         };
 
