@@ -7,7 +7,7 @@ angular.module('adminApp')
         $scope.modify = function(id) {
             var page = Pages.getPages(id);
             $scope.currentTitle = page.name;
-            $scope.activePage = id;
+            $scope.activePage = page.id;
             $scope.tinyMceContent = page.content;
         };
 
