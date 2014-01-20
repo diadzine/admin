@@ -5,12 +5,6 @@ angular.module('adminApp')
         var news = News.getNews(),
             date = new Date().getTime() / 1000;
 
-        /**
-         * TODO: ADD possibility to create Mag/Flash !
-         */
-
-
-
         $scope.news = news;
 
         $scope.sendNews = function() {
@@ -18,8 +12,7 @@ angular.module('adminApp')
                 title = document.getElementById('newsTitle').value,
                 content = $scope.tinyMceContent,
                 date = document.getElementById('newsDate').value,
-                mag = document.getElementById('newsMag').value === 'on' ? 1 :
-                    0;
+                mag = document.getElementById('newsMag').checked ? 1 : 0;
             date = date.split('/');
             date = parseInt(new Date(date[1] + '/' + date[0] + '/' + date[2] +
                 '/').getTime() / 1000) + 1;
