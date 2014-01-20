@@ -5,10 +5,10 @@ angular.module('adminApp')
         var pages = Pages.getPages()
 
         $scope.modify = function(id) {
-            debugger;
             var page = Pages.getPages(id);
             $scope.currentTitle = page.name;
             $scope.activePage = id;
+            $scope.tinyMceContent = page.content;
         };
 
         $scope.delete = function() {
@@ -23,8 +23,14 @@ angular.module('adminApp')
             return;
         };
 
-        $scope.save = function(id) {
-
+        $scope.save = function() {
+            var id = $scope.activePage;
+            var page = {
+                id: id,
+                name: $scope.currentTitle,
+                content: $scope.tinyMceContent,
+            };
+            Pages.save(id, page);
         };
 
         $scope.addPage = function() {
@@ -32,9 +38,11 @@ angular.module('adminApp')
             $scope.modify(newPage.id);
         };
 
-        $scope.currentPage = pages[0];
+        $scope.currentTitle = pages[0].name;
 
         $scope.activePage = pages[0].id;
+
+        $scope.tinyMceContent = pages[0].content;
 
         $scope.pages = pages;
 

@@ -26,9 +26,9 @@ angular.module('adminApp')
         return {
             getPages: function(id) {
                 var iter;
-                if (angular.isNumber(id)) {
+                if (id || angular.isNumber(id)) {
                     for (iter = 0; iter < pages.length; iter++) {
-                        if (pages[iter].id === iter) {
+                        if (pages[iter].id === id) {
                             return pages[iter];
                         }
                     }

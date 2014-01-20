@@ -94,7 +94,6 @@ angular.module('adminApp')
             },
 
             save: function(title, content, date, id, mag) {
-                debugger;
                 var iter;
                 if (!isNaN(id)) {
                     for (iter = 0; iter < news.length; iter++) {
