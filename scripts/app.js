@@ -18,6 +18,10 @@ angular
                 templateUrl: 'views/news.html',
                 controller: 'NewsCtrl'
             })
+            .when('/Pages', {
+              templateUrl: 'views/pages.html',
+              controller: 'PagesCtrl'
+            })
             .otherwise({
                 redirectTo: '/'
             });
