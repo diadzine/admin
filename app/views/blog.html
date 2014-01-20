@@ -1,1 +1,10 @@
-<p>This is the Blog view.</p>
+<div class="row col-md-12">
+	<div class="col-md-10">
+		<ul class="nav nav-pills well well-sm" id="ts-nav-subbar-list">
+			<li class="{{{true: 'active', false: ''}[activePage == p.id]}}" ng-repeat="b in blogs">
+				<a ng-click="modify(p.id)" style="padding:5px;">{{b.name}}</a>
+			</li>
+		</ul>
+	</div>
+	<button ng-click="addPage();" class="btn btn-success">Nouvelle page</button>
+</div>
