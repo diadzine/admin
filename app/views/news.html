@@ -21,6 +21,12 @@
 			<input style="display:inline;" type="file" class="btn btn-primary" value="Ajouter Images" />
 
 			<button type="submit" id="newsSend" ng-click="sendNews();" class="btn btn-info pull-right">{{sendText}}</button>
+
+			<div class="checkbox pull-right" style="display:inline;">
+				<label>
+				<input type="checkbox" id="newsMag" ng-checked="currentNews.mag" /> Publier dans Mag &nbsp;&nbsp;
+				</label>
+			</div>
 		</div>
 		<input type="hidden" id="newsId" value="{{currentNews.id}}" />
 	</form>

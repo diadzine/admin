@@ -18,7 +18,8 @@ angular.module('adminApp')
                 title = document.getElementById('newsTitle').value,
                 content = $scope.tinyMceContent,
                 date = document.getElementById('newsDate').value,
-                mag = 0;
+                mag = document.getElementById('newsMag').value === 'on' ? 1 :
+                    0;
             date = date.split('/');
             date = parseInt(new Date(date[1] + '/' + date[0] + '/' + date[2] +
                 '/').getTime() / 1000) + 1;
@@ -27,7 +28,7 @@ angular.module('adminApp')
                 return false;
             }
 
-            News.save(title, content, date, id, 0);
+            News.save(title, content, date, id, mag);
             $scope.addNews();
         };
 
