@@ -15,7 +15,7 @@
 
 <div class="col-md-12">
 	<form method="post">
-		<textarea id="newsContent" height="500px" ui-tinymce="tinymceOptions" ng-model="tinyMceContent">{{tinyMceContent}}</textarea>
+		<textarea id="newsContent" rows="20" ui-tinymce="tinymceOptions" ng-model="tinyMceContent">{{tinyMceContent}}</textarea>
 		<br />
 		<div class="row col-md-12">
 			<input style="display:inline;" type="file" class="btn btn-primary" value="Ajouter Images" />
@@ -36,7 +36,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="n in news">
+			<tr ng-repeat="n in news | orderBy:'date':true">
 				<td>{{n.title}}</td>
 				<td><a ng-click="modify(n.id);" class="btn btn-sm btn-primary">Modifier</a></td>
 				<td><a ng-click="" class="btn btn-sm btn-danger">Supprimer</a></td>

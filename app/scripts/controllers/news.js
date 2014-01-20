@@ -5,20 +5,37 @@ angular.module('adminApp')
         var news = News.getNews(),
             date = new Date().getTime() / 1000;
 
+        /**
+         * TODO: ADD possibility to create Mag/Flash !
+         */
+
+
 
         $scope.news = news;
 
         $scope.sendNews = function() {
-            alert('News Sent');
-            // should check date, title, tinymce
-            // if id = -1 create new, else, modify
+            var id = +(document.getElementById('newsId').value),
+                title = document.getElementById('newsTitle').value,
+                content = $scope.tinyMceContent,
+                date = document.getElementById('newsDate').value,
+                mag = 0;
+            date = date.split('/');
+            date = parseInt(new Date(date[1] + '/' + date[0] + '/' + date[2] +
+                '/').getTime() / 1000) + 1;
+            if (!(title ||  content || date)) {
+                alert('Certains champs ne sont pas remplis.');
+                return false;
+            }
 
-
+            News.save(title, content, date, id, 0);
+            $scope.addNews();
         };
 
         $scope.addNews = function() {
             $scope.currentNews = {
-                date: date,
+                title: '',
+                id: undefined,
+                date: date
             };
             $scope.sendText = 'Créer News';
             $scope.tinyMceContent = news.content;
@@ -29,8 +46,6 @@ angular.module('adminApp')
             $scope.currentNews = news;
             $scope.sendText = 'Modifier News';
             $scope.tinyMceContent = news.content;
-            // TODO: implement change content of tinymce. (not working yet.)
-            // change doc.getEl with a scope variable. change also in view.
         };
 
         $scope.sendText = 'Créer News';
