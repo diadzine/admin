@@ -82,6 +82,17 @@ angular.module('adminApp')
                 }
             },
 
+            delete: function(id) {
+                var iter;
+                for (iter = 0; iter < news.length; iter++) {
+                    if (news[iter].id === id) {
+                        news.splice(iter, 1);
+                        return true;
+                    }
+                }
+                return false;
+            },
+
             save: function(title, content, date, id, mag) {
                 debugger;
                 var iter;

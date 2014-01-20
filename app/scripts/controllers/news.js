@@ -25,6 +25,15 @@ angular.module('adminApp')
             $scope.addNews();
         };
 
+        $scope.delete = function(newsId) {
+            var c = confirm('Voulez vous vraiment supprimer la News n°' +
+                newsId + ' ?');
+            newsId = parseInt(newsId);
+            if (c) {
+                News.delete(newsId);
+            }
+        };
+
         $scope.addNews = function() {
             $scope.currentNews = {
                 date: date
@@ -38,6 +47,7 @@ angular.module('adminApp')
         $scope.modify = function(newsId) {
             var news = News.getNews(newsId);
             $scope.currentNews = news;
+            document.getElementById('newsTitle').value = news.title;
             $scope.sendText = 'Modifier News';
             $scope.tinyMceContent = news.content;
         };
