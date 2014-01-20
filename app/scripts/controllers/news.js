@@ -14,7 +14,7 @@ angular.module('adminApp')
         $scope.news = news;
 
         $scope.sendNews = function() {
-            var id = +(document.getElementById('newsId').value),
+            var id = parseInt(document.getElementById('newsId').value),
                 title = document.getElementById('newsTitle').value,
                 content = $scope.tinyMceContent,
                 date = document.getElementById('newsDate').value,
@@ -33,10 +33,10 @@ angular.module('adminApp')
 
         $scope.addNews = function() {
             $scope.currentNews = {
-                title: '',
-                id: undefined,
                 date: date
             };
+            document.getElementById('newsId').value = '';
+            document.getElementById('newsTitle').value = '';
             $scope.sendText = 'Créer News';
             $scope.tinyMceContent = news.content;
         };
