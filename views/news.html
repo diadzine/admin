@@ -1,38 +1,38 @@
 <h2>Créer une News</h2>
 <div class="col-md-12 row">
 	<div class="col-md-4">
-		<input type="text" value="{{currentNews.title}}" class="form-control col-md-4" size="10" id="newsTitle" placeholder="Titre de la News">
+		<input type="text" value="{{currentNews.title}}" class="form-control col-md-4" size="10" id="newsTitle" placeholder="Titre de la News" />
 	</div>
 	<div class="col-md-4">
-		<input type="text" class="form-control col-md-4" size="10" id="newsDate" value="{{currentNews.date*1000 | date:'dd/MM/yyyy'}}">
+		<input type="text" class="form-control col-md-4" size="10" id="newsDate" value="{{currentNews.date*1000 | date:'dd/MM/yyyy'}}" />
 	</div>
 	<button class="btn btn-info pull-right" ng-click="addNews();">Nouvelle News</button>
 </div>
 
-<br>
-<br>
-<br>
+<br />
+<br />
+<br />
 
 <div class="col-md-12">
 	<form method="post">
 		<textarea id="newsContent" rows="20" ui-tinymce="tinymceOptions" ng-model="tinyMceContent">{{tinyMceContent}}</textarea>
-		<br>
+		<br />
 		<div class="row col-md-12">
-			<input style="display:inline" type="file" class="btn btn-primary" value="Ajouter Images">
+			<input style="display:inline;" type="file" class="btn btn-primary" value="Ajouter Images" />
 
 			<button type="submit" id="newsSend" ng-click="sendNews();" class="btn btn-info pull-right">{{sendText}}</button>
 
-			<div class="checkbox pull-right" style="display:inline">
+			<div class="checkbox pull-right" style="display:inline;">
 				<label>
-				<input type="checkbox" id="newsMag" ng-checked="currentNews.mag"> Publier dans Mag &nbsp;&nbsp;
+				<input type="checkbox" id="newsMag" ng-checked="currentNews.mag" /> Publier dans Mag &nbsp;&nbsp;
 				</label>
 			</div>
 		</div>
-		<input type="hidden" id="newsId" value="{{currentNews.id}}">
+		<input type="hidden" id="newsId" value="{{currentNews.id}}" />
 	</form>
 </div>
 <div class="col-md-12">
-	<hr width="75%">
+	<hr width="75%" />
 	<table class="table">
 		<thead>
 			<tr>
@@ -51,3 +51,4 @@
 	</table>
 	
 </div>
+

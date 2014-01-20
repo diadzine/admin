@@ -12,8 +12,14 @@
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width">
 	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-	<link rel="stylesheet" href="styles/29403685.vendor.css"/>
-	<link rel="stylesheet" href="styles/e59afaa2.main.css"/>
+	<!-- build:css styles/vendor.css -->
+	<!-- bower:css -->
+	<link rel="stylesheet" href="bower_components/sass-bootstrap/dist/css/bootstrap.css">
+	<!-- endbower -->
+	<!-- endbuild -->
+	<!-- build:css({.tmp,app}) styles/main.css -->
+	<link rel="stylesheet" href="styles/main.css">
+	<!-- endbuild -->
 </head>
 <body ng-app="adminApp">
     <!--[if lt IE 7]>
@@ -68,8 +74,25 @@
     <!-- Requirements -->
     <script src="http://tinymce.cachefly.net/4.0/tinymce.min.js"></script>
 
-    <script src="scripts/7913cdb3.vendor.js"></script>
+    <!-- build:js scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/sass-bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-ui-tinymce/src/tinymce.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
 
-    <script src="scripts/80a50fb8.scripts.js"></script>
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/app.js"></script>
+    <script src="scripts/controllers/main.js"></script>
+    <script src="scripts/services/User.js"></script>
+    <script src="scripts/controllers/News.js"></script>
+    <script src="scripts/services/News.js"></script>
+    <!-- endbuild -->
   </body>
   </html>
