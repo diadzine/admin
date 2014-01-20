@@ -66,7 +66,8 @@ angular.module('adminApp')
                 else {
                     /*
                      * TODO:
-                     * pages.length is not enough, you have to sync with server.
+                     * Don't sync with server here. Instead do it when user clicks on "Enregistrer",
+                     * and then adjust the page id. (page.length is buggy)
                      */
                     var id = pages.length,
                         page = {
