@@ -1,16 +1,13 @@
 'use strict';
 
 angular.module('adminApp')
-  .factory('BlogPosts', function () {
-    // Service logic
-    // ...
+    .factory('BlogPosts', function() {
+        var posts = [];
 
-    var meaningOfLife = 42;
+        return {
+            getPosts: function() {
 
-    // Public API here
-    return {
-      someMethod: function () {
-        return meaningOfLife;
-      }
-    };
-  });
+            },
+
+        };
+    });
