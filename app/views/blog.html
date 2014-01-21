@@ -18,7 +18,7 @@
 
 
 	<div class="col-md-6">
-		<input type="button" class="btn btn-info btn-block" value="Mettre à jour" style="margin-bottom:20px;" />
+		<input type="button" class="btn btn-primary btn-block" value="Mettre à jour" style="margin-bottom:20px;" />
 
 		<div class="col-md-12 row" style="margin-bottom:20px;">
 			<h4 class="col-md-3" style="display:inline;">Nom</h4>
@@ -101,7 +101,7 @@
 
 		<div class="col-md-12">
 			<form method="post">
-				<textarea id="newsContent" rows="20" ui-tinymce="tinymceOptionsNews" ng-model="tinyMceContent">{{tinyMceContent}}</textarea>
+				<textarea id="newsContent" rows="20" ui-tinymce="tinymceOptionsNews" ng-model="asdf">{{tinyMceContent}}</textarea>
 				<br />
 				<div class="row col-md-12">
 					<input style="display:inline;" type="file" class="btn btn-primary" value="Ajouter Images" />
@@ -122,7 +122,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="n in news | orderBy:'date':true">
+					<tr ng-repeat="n in blogPosts | orderBy:'date':true">
 						<td>{{n.title}}</td>
 						<td><a ng-click="modify(n.id);" class="btn btn-sm btn-primary">Modifier</a></td>
 						<td><a ng-click="delete(n.id);" class="btn btn-sm btn-danger">Supprimer</a></td>

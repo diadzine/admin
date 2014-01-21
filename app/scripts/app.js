@@ -6,7 +6,7 @@ angular
         'ngResource',
         'ngSanitize',
         'ngRoute',
-        'ui.tinymce'
+        'ui.tinymce',
     ])
     .config(function($routeProvider, $locationProvider) {
         $routeProvider
@@ -19,12 +19,12 @@ angular
                 controller: 'NewsCtrl'
             })
             .when('/Pages', {
-              templateUrl: 'views/pages.html',
-              controller: 'PagesCtrl'
+                templateUrl: 'views/pages.html',
+                controller: 'PagesCtrl'
             })
             .when('/Blog', {
-              templateUrl: 'views/blog.html',
-              controller: 'BlogCtrl'
+                templateUrl: 'views/blog.html',
+                controller: 'BlogCtrl'
             })
             .otherwise({
                 redirectTo: '/'
