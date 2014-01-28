@@ -1,5 +1,5 @@
 <div class="row col-md-12">
-	<div class="col-md-10">
+	<div class="col-md-9">
 		<ul class="nav nav-pills well well-sm" id="ts-nav-subbar-list">
 			<li class="{{{true: 'active', false: ''}[activeBlogger == b.id]}}" ng-repeat="b in bloggers">
 				<a ng-click="select(b.id)" style="padding:5px;">{{b.name}}</a>
@@ -7,6 +7,7 @@
 		</ul>
 	</div>
 	<button ng-click="addBlog();" class="btn btn-success">Nouveau blog</button>
+	<button ng-click="deleteBlog();" class="btn btn-danger">Supprimer</button>
 </div>
 
 <br />

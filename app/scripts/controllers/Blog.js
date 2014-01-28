@@ -18,6 +18,18 @@ angular.module('adminApp')
                 $scope.blogger = blogger;
             };
 
+            $scope.deleteBlog = function() {
+                var conf = confirm(
+                    'Êtes-vous sûr de vouloir supprimer le blog ' + $scope.blogger
+                    .name + ' ?'),
+                    blogger = $scope.blogger;
+
+                if (conf) {
+                    $scope.bloggers = Bloggers.delete(blogger);
+                    $scope.select($scope.bloggers[0].id);
+                }
+            };
+
             $scope.saveBlogger = function() {
                 var id = $scope.activeBlogger,
                     blogger = $scope.blogger;

@@ -64,6 +64,18 @@ angular.module('adminApp')
                 return bloggers;
             },
 
+            delete: function(blogger) {
+                var id = blogger.id,
+                    iter;
+                for (iter = 0; iter < bloggers.length; iter++) {
+                    if (bloggers[iter].id === id) {
+                        bloggers.splice(iter, 1);
+                        return bloggers;
+                    }
+                }
+                return bloggers;
+            },
+
             save: function(id, blogger) {
                 var iter;
                 if (id || angular.isNumber(id)) {
