@@ -64,7 +64,35 @@ angular.module('adminApp')
                 return bloggers;
             },
 
-            save: function() {
+            save: function(id, blogger) {
+                var iter;
+                if (id || angular.isNumber(id)) {
+                    for (iter = 0; iter < bloggers.length; iter++) {
+                        if (bloggers[iter].id === id) {
+                            bloggers[iter] = blogger;
+                            return bloggers[iter];
+                        }
+                    }
+                }
+                else {
+                    /*
+                     * TODO:
+                     * Don't sync with server here. Instead do it when user clicks on "Enregistrer",
+                     * and then adjust the page id. (page.length is buggy)
+                     */
+                    var id = bloggers.length,
+                        blogger = {
+                            id: id,
+                            name: 'Nouveau Blogger',
+                            linkResults: '',
+                            profilePic: '',
+                            biography: '',
+                            sponsors: [],
+                            ad: []
+                        };
+                    bloggers.push(blogger);
+                    return blogger;
+                }
 
             },
 

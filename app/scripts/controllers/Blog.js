@@ -3,11 +3,7 @@
 angular.module('adminApp')
     .controller('BlogCtrl', ['$scope', 'Bloggers', 'BlogPosts',
         function($scope, Bloggers, BlogPosts) {
-            var bloggers = Bloggers.getBloggers(),
-                /*
-                 * TODO: Change, because we want to load the posts for a given user...
-                 */
-                blogPosts = BlogPosts.getPosts();
+            var bloggers = Bloggers.getBloggers();
 
             $scope.select = function(id) {
                 var blogger = Bloggers.getBloggers(id);
@@ -16,11 +12,28 @@ angular.module('adminApp')
             };
 
             $scope.addBlog = function() {
-                // TODO: implement it
+                var blogger = Bloggers.save(null);
+                $scope.activeBlogger = blogger.id;
+                $scope.blogger = blogger;
             };
 
             $scope.saveBlogger = function() {
-                // TODO: Implement it
+                var id = $scope.activeBlogger,
+                    blogger = $scope.blogger;
+                Bloggers.save(id, blogger);
+            };
+
+            // This function should upload the picture and then modify directly the scope.blogger object.
+            $scope.changePortrait = function() {
+
+            };
+            // This function should upload the picture and then modify directly the scope.blogger object.
+            $scope.changeSponsors = function() {
+
+            };
+            // This function should upload the picture and then modify directly the scope.blogger object.
+            $scope.changeAd = function() {
+
             };
 
             $scope.bloggers = bloggers;
@@ -29,7 +42,7 @@ angular.module('adminApp')
 
             $scope.blogger = bloggers[0];
 
-            $scope.blogPosts = blogPosts;
+            $scope.blogPosts = BlogPosts.getPosts($scope.blogger.id);
 
             $scope.tinymceOptionsBio = {
                 selector: '#bioContent',

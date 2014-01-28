@@ -6,16 +6,12 @@
 			</li>
 		</ul>
 	</div>
-	<button ng-click="addPage();" class="btn btn-success">Nouveau blog</button>
+	<button ng-click="addBlog();" class="btn btn-success">Nouveau blog</button>
 </div>
 
 <br />
 
 <div class="col-md-12 row">
-
-
-
-
 
 	<div class="col-md-6">
 		<input type="button" class="btn btn-primary btn-block" value="Mettre à jour" style="margin-bottom:20px;" />
@@ -36,8 +32,11 @@
 
 		<div class="col-md-12 row" style="margin-bottom:20px;">
 			<h4 class="col-md-3" style="display:inline;">Portrait</h4>
-			<div class="col-md-9">
+			<div class="col-md-5">
 				<input type="file" class="form-control"  />
+			</div>
+			<div class="col-md-4">
+				<img ng-src="{{blogger.profilePic}}" alt="Image du blogger" />
 			</div>
 		</div>
 
@@ -72,17 +71,6 @@
 			</div>
 		</div>
 	</div>
-
-
-
-
-
-
-
-
-
-
-
 
 	<div class="col-md-6" style="border-left:solid gray 1px;">
 		<div class="col-md-12 row">
