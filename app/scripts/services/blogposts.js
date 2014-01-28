@@ -25,7 +25,7 @@ angular.module('adminApp')
             date: 1329390694,
         }, {
             id: 3,
-            blogId: 3,
+            blogId: 2,
             title: 'News n°3 avec super long titre',
             content: 'Mon super text, avec du html: <img src="http://www.google.ch/logos/doodles/2014/annette-von-droste-hulshoffs-217th-birthday-5701007384248320.2-hp.jpg" /><a href="http://tooski.ch"></a>',
             date: 1329390694,
@@ -46,6 +46,25 @@ angular.module('adminApp')
                     }
                 }
                 return selected;
+            },
+
+            save: function(post) {
+                debugger;
+                var iter;
+                if (post.id || angular.isNumber(post.id)) {
+                    for (iter = 0; iter < posts.length; iter++) {
+                        if (posts[iter].id === post.id) {
+                            posts[iter] = post;
+                            return true;
+                        }
+                    }
+                }
+                else {
+                    post.id = posts.length;
+                    posts.push(post);
+                    return true;
+                }
+                return false;
             },
 
             getPosts: function(blogId, id) {

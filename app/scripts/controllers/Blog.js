@@ -10,6 +10,7 @@ angular.module('adminApp')
                 $scope.activeBlogger = blogger.id;
                 $scope.blogger = blogger;
                 $scope.blogPosts = BlogPosts.getPosts($scope.activeBlogger);
+                $scope.currentNews = {};
             };
 
             $scope.addBlog = function() {
@@ -74,8 +75,23 @@ angular.module('adminApp')
 
             };
 
-            $scope.modifyNews = function(postId) {
+            $scope.addNews = function() {
+                $scope.currentNews = {
+                    date: parseInt((new Date().getTime()) / 1000),
+                    blogId: $scope.activeBlogger,
+                };
+            };
 
+            $scope.modifyNews = function(post) {
+                $scope.currentNews = post;
+            };
+
+            $scope.saveNews = function() {
+                var post = $scope.currentNews;
+                post.date = post.date || parseInt((new Date().getTime()) /
+                    1000);
+                BlogPosts.save(post);
+                $scope.blogPosts = BlogPosts.getPosts(post.blogId);
             };
 
             $scope.deleteNews = function(postId) {
@@ -97,6 +113,11 @@ angular.module('adminApp')
             $scope.blogger = bloggers[0];
 
             $scope.blogPosts = BlogPosts.getPosts($scope.activeBlogger);
+
+            $scope.currentNews = {
+                date: parseInt((new Date().getTime()) / 1000),
+                blogId: $scope.activeBlogger,
+            };
 
             $scope.tinymceOptionsBio = {
                 selector: '#bioContent',

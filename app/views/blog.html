@@ -76,7 +76,7 @@
 	<div class="col-md-6" style="border-left:solid gray 1px;">
 		<div class="col-md-12 row">
 			<div class="col-md-4">
-				<input type="text" value="{{currentNews.title}}" class="form-control col-md-4" size="10" id="newsTitle" placeholder="Titre de la News" />
+				<input type="text" ng-model="currentNews.title" class="form-control col-md-4" size="10" id="newsTitle" placeholder="Titre de la News" />
 			</div>
 			<div class="col-md-4">
 				<input type="text" class="form-control col-md-4" size="10" id="newsDate" value="{{currentNews.date*1000 | date:'dd/MM/yyyy'}}" />
@@ -90,12 +90,12 @@
 
 		<div class="col-md-12">
 			<form method="post">
-				<textarea id="newsContent" rows="20" ui-tinymce="tinymceOptionsNews" ng-model="asdf">{{tinyMceContent}}</textarea>
+				<textarea id="newsContent" rows="20" ui-tinymce="tinymceOptionsNews" ng-model="currentNews.content">{{tinyMceContent}}</textarea>
 				<br />
 				<div class="row col-md-12">
 					<input style="display:inline;" type="file" class="btn btn-primary" value="Ajouter Images" />
 
-					<button type="submit" id="newsSend" ng-click="sendNews();" class="btn btn-info pull-right">Envoyer</button>
+					<button type="submit" id="newsSend" ng-click="saveNews();" class="btn btn-info pull-right">Envoyer</button>
 				</div>
 				<input type="hidden" id="newsId" value="{{currentNews.id}}" />
 			</form>
@@ -113,7 +113,7 @@
 				<tbody>
 					<tr ng-repeat="n in blogPosts | orderBy:'date':true">
 						<td>{{n.title}}</td>
-						<td><a ng-click="modifyNews(n.id);" class="btn btn-sm btn-primary">Modifier</a></td>
+						<td><a ng-click="modifyNews(n);" class="btn btn-sm btn-primary">Modifier</a></td>
 						<td><a ng-click="deleteNews(n.id);" class="btn btn-sm btn-danger">Supprimer</a></td>
 					</tr>
 				</tbody>
