@@ -34,7 +34,7 @@
 		<div class="col-md-12 row" style="margin-bottom:20px;">
 			<h4 class="col-md-3" style="display:inline;">Portrait</h4>
 			<div class="col-md-5">
-				<input type="file" class="form-control"  />
+			<input type="file" class="form-control" ng-model-instant id="portraitToUpload" onchange="angular.element(this).scope().changePortrait(this)" />
 			</div>
 			<div class="col-md-4">
 				<img ng-src="{{blogger.profilePic}}" alt="Image du blogger" />
@@ -52,7 +52,7 @@
 			<div class="col-md-12 row">
 				<h4 class="col-md-3" style="display:inline;">Sponsors</h4>
 				<div class="col-md-9">
-					<input type="file" class="form-control"  />
+					<input type="file" class="form-control" ng-model-instant id="sponsorsToUpload" multiple onchange="angular.element(this).scope().addSponsors(this)" />
 				</div>
 			</div>
 			<div class="col-md-10 row">
@@ -64,7 +64,7 @@
 			<div class="col-md-12 row">
 				<h4 class="col-md-3" style="display:inline;">Publicité</h4>
 				<div class="col-md-9">
-					<input type="file" class="form-control"  />
+					<input type="file" class="form-control" ng-model-instant id="adToUpload" multiple onchange="angular.element(this).scope().addAd(this)" />
 				</div>
 			</div>
 			<div class="col-md-10 row">

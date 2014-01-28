@@ -47,15 +47,28 @@ angular.module('adminApp')
             };
 
             // This function should upload the picture and then modify directly the scope.blogger object.
-            $scope.changePortrait = function() {
-
+            $scope.changePortrait = function(element) {
+                $scope.$apply(function($scope) {
+                    console.log('files:', element.files);
+                    var files = element.files;
+                    //Write here code to upload files to server.
+                });
             };
             // This function should upload the picture and then modify directly the scope.blogger object.
-            $scope.changeSponsors = function() {
-
+            $scope.addSponsors = function(element) {
+                $scope.$apply(function($scope) {
+                    console.log('files:', element.files);
+                    var files = element.files;
+                    //Write here code to upload files to server.
+                });
             };
             // This function should upload the picture and then modify directly the scope.blogger object.
-            $scope.changeAd = function() {
+            $scope.addAd = function(element) {
+                $scope.$apply(function($scope) {
+                    console.log('files:', element.files);
+                    var files = element.files;
+                    //Write here code to upload files to server.
+                });
 
             };
 
