@@ -27,7 +27,9 @@ angular.module('adminApp')
                 if (conf) {
                     $scope.bloggers = Bloggers.delete(blogger);
                     $scope.select($scope.bloggers[0].id);
+                    return true;
                 }
+                return false;
             };
 
             $scope.saveBlogger = function() {
@@ -70,6 +72,22 @@ angular.module('adminApp')
                     //Write here code to upload files to server.
                 });
 
+            };
+
+            $scope.modifyNews = function(postId) {
+
+            };
+
+            $scope.deleteNews = function(postId) {
+                var conf = confirm(
+                    'Voulez-vous vraiment effacer le post n°' + postId +
+                    ' ?'),
+                    blogId = $scope.activeBlogger;
+                if (conf) {
+                    $scope.blogPosts = BlogPosts.delete(postId, blogId);
+                    return true;
+                }
+                return false;
             };
 
             $scope.bloggers = bloggers;

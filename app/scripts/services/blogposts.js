@@ -32,6 +32,22 @@ angular.module('adminApp')
         }, ];
 
         return {
+            delete: function(postId, blogId) {
+                var iter, selected = [];
+                for (iter = 0; iter < posts.length; iter++) {
+                    if (posts[iter].blogId === blogId) {
+                        if (posts[iter].id === postId) {
+                            posts.splice(iter, 1);
+                            iter--;
+                        }
+                        else {
+                            selected.push(posts[iter]);
+                        }
+                    }
+                }
+                return selected;
+            },
+
             getPosts: function(blogId, id) {
                 var iter, jter, selected = [];
 

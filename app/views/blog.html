@@ -113,8 +113,8 @@
 				<tbody>
 					<tr ng-repeat="n in blogPosts | orderBy:'date':true">
 						<td>{{n.title}}</td>
-						<td><a ng-click="modify(n.id);" class="btn btn-sm btn-primary">Modifier</a></td>
-						<td><a ng-click="delete(n.id);" class="btn btn-sm btn-danger">Supprimer</a></td>
+						<td><a ng-click="modifyNews(n.id);" class="btn btn-sm btn-primary">Modifier</a></td>
+						<td><a ng-click="deleteNews(n.id);" class="btn btn-sm btn-danger">Supprimer</a></td>
 					</tr>
 				</tbody>
 			</table>
