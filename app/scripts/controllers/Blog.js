@@ -9,6 +9,7 @@ angular.module('adminApp')
                 var blogger = Bloggers.getBloggers(id);
                 $scope.activeBlogger = blogger.id;
                 $scope.blogger = blogger;
+                $scope.blogPosts = BlogPosts.getPosts($scope.activeBlogger);
             };
 
             $scope.addBlog = function() {
@@ -21,6 +22,16 @@ angular.module('adminApp')
                 var id = $scope.activeBlogger,
                     blogger = $scope.blogger;
                 Bloggers.save(id, blogger);
+            };
+
+            $scope.removeSponsor = function(sponsor) {
+                var pos = $scope.blogger.sponsors.indexOf(sponsor);
+                $scope.blogger.sponsors.splice(pos, 1);
+            };
+
+            $scope.removeAd = function(ad) {
+                var pos = $scope.blogger.ad.indexOf(ad);
+                $scope.blogger.ad.splice(pos, 1);
             };
 
             // This function should upload the picture and then modify directly the scope.blogger object.
@@ -42,7 +53,7 @@ angular.module('adminApp')
 
             $scope.blogger = bloggers[0];
 
-            $scope.blogPosts = BlogPosts.getPosts($scope.blogger.id);
+            $scope.blogPosts = BlogPosts.getPosts($scope.activeBlogger);
 
             $scope.tinymceOptionsBio = {
                 selector: '#bioContent',

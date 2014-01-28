@@ -14,7 +14,7 @@
 <div class="col-md-12 row">
 
 	<div class="col-md-6">
-		<input type="button" class="btn btn-primary btn-block" value="Mettre à jour" style="margin-bottom:20px;" />
+		<input type="button" ng-click="saveBlogger();" class="btn btn-primary btn-block" value="Mettre à jour" style="margin-bottom:20px;" />
 
 		<div class="col-md-12 row" style="margin-bottom:20px;">
 			<h4 class="col-md-3" style="display:inline;">Nom</h4>
@@ -55,7 +55,7 @@
 				</div>
 			</div>
 			<div class="col-md-10 row">
-				<img ng-repeat="sponsor in blogger.sponsors" ng-src="{{sponsor}}" style="max-width:100px; max-height:100px;" />
+				<img ng-repeat="sponsor in blogger.sponsors" ng-src="{{sponsor}}" ng-click="removeSponsor(sponsor);" style="max-width:100px; max-height:100px;" />
 			</div>
 		</div>
 
@@ -67,7 +67,7 @@
 				</div>
 			</div>
 			<div class="col-md-10 row">
-				<img ng-repeat="ad in blogger.ad" ng-src="{{ad}}" style="max-width:100px; max-height:100px;" />
+				<img ng-repeat="ad in blogger.ad" ng-src="{{ad}}" ng-click="removeAd(ad);" style="max-width:100px; max-height:100px;" />
 			</div>
 		</div>
 	</div>
