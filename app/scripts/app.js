@@ -26,6 +26,10 @@ angular
                 templateUrl: 'views/blog.html',
                 controller: 'BlogCtrl'
             })
+            .when('/Ad', {
+              templateUrl: 'views/ad.html',
+              controller: 'AdCtrl'
+            })
             .otherwise({
                 redirectTo: '/'
             });
