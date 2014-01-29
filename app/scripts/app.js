@@ -27,7 +27,7 @@ angular
                 controller: 'BlogCtrl'
             })
             .when('/Pub', {
-                templateUrl: 'views/Pub.html',
+                templateUrl: 'views/pub.html',
                 controller: 'PubCtrl'
             })
             .otherwise({

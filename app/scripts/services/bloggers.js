@@ -53,13 +53,10 @@ angular.module('adminApp')
         }, ];
         return {
             getBloggers: function(id) {
-                var iter;
                 if (id || angular.isNumber(id)) {
-                    for (iter = 0; iter < bloggers.length; iter++) {
-                        if (bloggers[iter].id === id) {
-                            return bloggers[iter];
-                        }
-                    }
+                    return bloggers.filter(function(el) {
+                        return el.id === id;
+                    })[0];
                 }
                 return bloggers;
             },
@@ -95,7 +92,7 @@ angular.module('adminApp')
                     var id = bloggers.length,
                         blogger = {
                             id: id,
-                            name: 'Nouveau Blogger',
+                            name: 'Nouveau Blog',
                             linkResults: '',
                             profilePic: '',
                             biography: '',

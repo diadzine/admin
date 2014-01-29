@@ -49,7 +49,6 @@ angular.module('adminApp')
             },
 
             save: function(post) {
-                debugger;
                 var iter;
                 if (post.id || angular.isNumber(post.id)) {
                     for (iter = 0; iter < posts.length; iter++) {
@@ -68,22 +67,18 @@ angular.module('adminApp')
             },
 
             getPosts: function(blogId, id) {
-                var iter, jter, selected = [];
-
-                for (iter = 0; iter < posts.length; iter++) {
-                    if (posts[iter].blogId === blogId) {
-                        selected.push(posts[iter]);
-                    }
+                var selected;
+                if (!id && !angular.isNumber(id)) {
+                    return posts.filter(function(el) {
+                        return el.blogId === blogId;
+                    });
                 }
-                return selected;
-                if (id || angular.isNumber(id)) {
-                    for (iter = 0; iter < posts.length; iter++) {
-                        if (posts[iter].id === id) {
-                            return posts[iter];
-                        }
-                    }
+                else {
+                    selected = posts.filter(function(el) {
+                        return el.id === id;
+                    });
+                    return selected[0];
                 }
-                return posts
             },
 
         };

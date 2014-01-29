@@ -10,7 +10,7 @@ angular.module('adminApp')
 
         $scope.removeImage = function(image) {
             Pub.remove(image);
-            refresh();
+            refresh()
         };
 
         refresh();
