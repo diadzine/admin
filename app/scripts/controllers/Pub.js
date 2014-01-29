@@ -3,5 +3,15 @@
 angular.module('adminApp')
     .controller('PubCtrl', function($scope, Pub) {
 
-        $scope.verticales = Ad
+        var refresh = function() {
+            $scope.verticals = Pub.getCat('vertical');
+            $scope.horizontals = Pub.getCat('horizontal');
+        };
+
+        $scope.removeImage = function(image) {
+            Pub.remove(image);
+            refresh();
+        };
+
+        refresh();
     });
