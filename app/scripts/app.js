@@ -26,9 +26,9 @@ angular
                 templateUrl: 'views/blog.html',
                 controller: 'BlogCtrl'
             })
-            .when('/Ad', {
-              templateUrl: 'views/ad.html',
-              controller: 'AdCtrl'
+            .when('/Pub', {
+                templateUrl: 'views/Pub.html',
+                controller: 'PubCtrl'
             })
             .otherwise({
                 redirectTo: '/'
