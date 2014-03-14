@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('adminApp')
-    .factory('News', function() {
+    .factory('News', function($http, Server) {
         var news = [{
             id: 0,
             author: 'Séb',

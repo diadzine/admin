@@ -3,22 +3,31 @@
 angular.module('adminApp')
     .controller('NewsCtrl', ['$scope', 'News',
         function($scope, News) {
-            var news = News.getNews(),
-                date = new Date().getTime() / 1000;
+            var news = [];
+            News.getNews(function(response) {
+                news = response;
+                $scope.news = news;
+            }),
+            date = new Date()
+                .getTime() / 1000;
 
-            $scope.news = news;
 
             $scope.sendNews = function() {
-                var id = parseInt(document.getElementById('newsId').value),
-                    title = document.getElementById('newsTitle').value,
+                var id = parseInt(document.getElementById('newsId')
+                    .value),
+                    title = document.getElementById('newsTitle')
+                        .value,
                     content = $scope.tinyMceContent,
-                    date = document.getElementById('newsDate').value,
-                    mag = document.getElementById('newsMag').checked ? 1 :
+                    date = document.getElementById('newsDate')
+                        .value,
+                    mag = document.getElementById('newsMag')
+                        .checked ? 1 :
                         0;
                 date = date.split('/');
                 date = parseInt(new Date(date[1] + '/' + date[0] + '/' +
-                    date[2] +
-                    '/').getTime() / 1000) + 1;
+                        date[2] +
+                        '/')
+                    .getTime() / 1000) + 1;
                 if (!(title ||  content || date)) {
                     alert('Certains champs ne sont pas remplis.');
                     return false;
@@ -41,8 +50,10 @@ angular.module('adminApp')
                 $scope.currentNews = {
                     date: date
                 };
-                document.getElementById('newsId').value = '';
-                document.getElementById('newsTitle').value = '';
+                document.getElementById('newsId')
+                    .value = '';
+                document.getElementById('newsTitle')
+                    .value = '';
                 $scope.sendText = 'Créer News';
                 $scope.tinyMceContent = news.content;
             };
@@ -50,7 +61,8 @@ angular.module('adminApp')
             $scope.modify = function(newsId) {
                 var news = News.getNews(newsId);
                 $scope.currentNews = news;
-                document.getElementById('newsTitle').value = news.title;
+                document.getElementById('newsTitle')
+                    .value = news.title;
                 $scope.sendText = 'Modifier News';
                 $scope.tinyMceContent = news.content;
             };
