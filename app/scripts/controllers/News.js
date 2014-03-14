@@ -54,15 +54,12 @@ angular.module('adminApp')
                     date: date
                 };
                 $scope.sendText = 'Créer News';
-                // $scope.tinyMceContent = $scope.currentNews.content;
             };
 
             $scope.modify = function(newsId) {
                 News.getNews(function(response) {
-                    debugger;
                     $scope.currentNews = response;
                     $scope.sendText = 'Modifier News';
-                    // $scope.tinyMceContent = $scope.currentNews.content;
                 }, newsId);
             };
 
