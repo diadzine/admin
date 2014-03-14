@@ -2,93 +2,77 @@
 
 angular.module('adminApp')
     .factory('News', function($http, Server) {
-        var news = [{
-            id: 0,
-            author: 'Séb',
-            title: 'News n°0 avec super long titre',
-            content: 'Mon super text, avec du html: <img src="http://www.google.ch/logos/doodles/2014/annette-von-droste-hulshoffs-217th-birthday-5701007384248320.2-hp.jpg" /><a href="http://tooski.ch"></a>',
-            date: 1329390694,
-            mag: 1,
-        }, {
-            id: 1,
-            author: 'Séb',
-            title: 'News n°1',
-            content: 'Mon super text, avec du html: <img src="http://www.fricktal24.ch/typo3temp/pics/Ski-Aerni_Luca_01_55d138efee.jpg" /><a href="http://tooski.ch"></a>',
-            date: 1319390695,
-            mag: 1,
-        }, {
-            id: 2,
-            author: 'Séb',
-            title: 'News n°2',
-            content: 'Mon super text, avec du html: <a href="https://tooski.ch"><img src="http://skiweltcup.tv/wp-content/themes/tvsportnews/images/09-aerni002-klein-swiss-ski.jpg" /></a>',
-            date: 1329390696,
-            mag: 1,
-        }, {
-            id: 3,
-            author: 'Séb',
-            title: 'News n°0',
-            content: 'Mon super text, avec du html: <img src="http://www.google.ch/logos/doodles/2014/annette-von-droste-hulshoffs-217th-birthday-5701007384248320.2-hp.jpg" /><a href="http://tooski.ch"></a>',
-            date: 1339390694,
-            mag: 1,
-        }, {
-            id: 4,
-            author: 'Séb',
-            title: 'News n°1',
-            content: 'Mon super text, avec du html: <img src="http://www.fricktal24.ch/typo3temp/pics/Ski-Aerni_Luca_01_55d138efee.jpg" /><a href="http://tooski.ch"></a>',
-            date: 1349390695,
-            mag: 0,
-        }, {
-            id: 5,
-            author: 'Séb',
-            title: 'News n°2',
-            content: 'Mon super text, avec du html: <a href="https://tooski.ch"><img src="http://skiweltcup.tv/wp-content/themes/tvsportnews/images/09-aerni002-klein-swiss-ski.jpg" /></a>',
-            date: 1359390696,
-            mag: 0,
-        }, {
-            id: 6,
-            author: 'Séb',
-            title: 'News n°0',
-            content: 'Mon super text, avec du html: <img src="http://www.google.ch/logos/doodles/2014/annette-von-droste-hulshoffs-217th-birthday-5701007384248320.2-hp.jpg" /><a href="http://tooski.ch"></a>',
-            date: 1369390694,
-            mag: 1,
-        }, {
-            id: 7,
-            author: 'Séb',
-            title: 'News n°1',
-            content: 'Mon super text, avec du html: <img src="http://www.fricktal24.ch/typo3temp/pics/Ski-Aerni_Luca_01_55d138efee.jpg" /><a href="http://tooski.ch"></a>',
-            date: 1379390695,
-            mag: 1,
-        }, {
-            id: 8,
-            author: 'Séb',
-            title: 'News n°2',
-            content: 'Mon super text, avec du html: <a href="https://tooski.ch"><img src="http://skiweltcup.tv/wp-content/themes/tvsportnews/images/09-aerni002-klein-swiss-ski.jpg" /></a>',
-            date: 1389390696,
-            mag: 0,
-        }, ];
+        var news = [];
+
+        var newsUrl = Server.Url + 'news/';
+        var loadNews;
+
+        loadNews = function(callback, id) {
+            var url = newsUrl + (id ? '?id=' + id : '');
+
+            $http.get(url, {
+                cache: 'true'
+            })
+                .success(function(response) {
+                    var iter, filter;
+                    var processed = Server.processResponse(response);
+                    for (iter = 0; iter < processed.length; iter++) {
+                        filter = news.some(function(el) {
+                            return JSON.stringify(el) === JSON.stringify(
+                                processed[iter]);
+                        });
+                        if (!filter) {
+                            news.push(processed[iter]);
+                        }
+                    }
+                    processed = processed.length > 1 ? processed :
+                        processed[0];
+                    callback(processed);
+                })
+                .error(Server.errorHandler);
+        };
 
 
         return {
-            getNews: function(id) {
-                var curr;
-                if (!isNaN(id)) {
-                    curr = news.filter(function(el) {
+            getNews: function(callback, id) {
+                var current;
+                if (id || angular.isNumber(id)) {
+                    current = news.filter(function(el) {
                         return el.id === id;
-                    });
-                    return curr[0];
+                    })[0];
+                    if (typeof current === 'undefined') {
+                        loadNews(callback, id);
+                    }
+                    else {
+                        callback(current);
+                    }
                 }
                 else {
-                    return news;
+                    if (news.length > 0) {
+                        callback(news);
+                    }
+                    else {
+                        loadNews(callback);
+                    }
                 }
             },
 
-            delete: function(id) {
-                var iter;
-                for (iter = 0; iter < news.length; iter++) {
-                    if (news[iter].id === id) {
-                        news.splice(iter, 1);
-                        return true;
+            delete: function(callback, id) {
+                var iter,
+                    deleteUrl = newsUrl + 'delete/?id=' + id;
+                if (id && angular.isNumber(id)) {
+                    for (iter = 0; iter < news.length; iter++) {
+                        if (news[iter].id === id) {
+                            news.splice(iter, 1);
+                            $http.get(deleteUrl)
+                                .success(function() {
+                                    callback(news);
+                                })
+                                .error(Server.errorHandler);;
+                            return true;
+                        }
                     }
+
                 }
                 return false;
             },

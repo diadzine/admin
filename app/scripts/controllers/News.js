@@ -3,21 +3,21 @@
 angular.module('adminApp')
     .controller('NewsCtrl', ['$scope', 'News',
         function($scope, News) {
-            var news = [];
+            var news = [],
+                date = new Date()
+                    .getTime();
+
+
             News.getNews(function(response) {
                 news = response;
                 $scope.news = news;
-            }),
-            date = new Date()
-                .getTime() / 1000;
-
+            });
 
             $scope.sendNews = function() {
-                var id = parseInt(document.getElementById('newsId')
-                    .value),
-                    title = document.getElementById('newsTitle')
-                        .value,
-                    content = $scope.tinyMceContent,
+                var id = parseInt($scope.currentNews.id),
+                    title = $scope.currentNews.title,
+                    content = $scope.currentNews.content,
+                    // Check if the next 2 need document.getElement.
                     date = document.getElementById('newsDate')
                         .value,
                     mag = document.getElementById('newsMag')
@@ -42,7 +42,10 @@ angular.module('adminApp')
                     newsId + ' ?');
                 newsId = parseInt(newsId);
                 if (c) {
-                    News.delete(newsId);
+                    News.delete(function(response) {
+                        news = response;
+                        $scope.news = response;
+                    }, newsId);
                 }
             };
 
@@ -50,31 +53,28 @@ angular.module('adminApp')
                 $scope.currentNews = {
                     date: date
                 };
-                document.getElementById('newsId')
-                    .value = '';
-                document.getElementById('newsTitle')
-                    .value = '';
                 $scope.sendText = 'Créer News';
-                $scope.tinyMceContent = news.content;
+                // $scope.tinyMceContent = $scope.currentNews.content;
             };
 
             $scope.modify = function(newsId) {
-                var news = News.getNews(newsId);
-                $scope.currentNews = news;
-                document.getElementById('newsTitle')
-                    .value = news.title;
-                $scope.sendText = 'Modifier News';
-                $scope.tinyMceContent = news.content;
+                News.getNews(function(response) {
+                    debugger;
+                    $scope.currentNews = response;
+                    $scope.sendText = 'Modifier News';
+                    // $scope.tinyMceContent = $scope.currentNews.content;
+                }, newsId);
             };
 
             $scope.sendText = 'Créer News';
 
             $scope.currentNews = {
                 date: date,
+                content: 'Nouvelle news ici.',
             };
 
             $scope.tinymceOptions = {
-                selector: 'textarea',
+                selector: '#newsContent',
                 theme: 'modern',
                 plugins: [
                     'advlist autolink lists link image charmap print preview hr anchor pagebreak',
