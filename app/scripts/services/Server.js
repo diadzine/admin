@@ -16,7 +16,7 @@ angular.module('adminApp')
             });
         };
 
-        this.errorHandler = function(status, response) {
+        this.errorHandler = function(response, status) {
             alert(
                 'There was a connection problem with the server. (' +
                 status + ')'

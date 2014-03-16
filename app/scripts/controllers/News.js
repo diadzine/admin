@@ -17,23 +17,18 @@ angular.module('adminApp')
                 var id = parseInt($scope.currentNews.id),
                     title = $scope.currentNews.title,
                     content = $scope.currentNews.content,
-                    // Check if the next 2 need document.getElement.
-                    date = document.getElementById('newsDate')
-                        .value,
+                    date = $scope.currentNews.date,
                     mag = document.getElementById('newsMag')
-                        .checked ? 1 :
-                        0;
-                date = date.split('/');
-                date = parseInt(new Date(date[1] + '/' + date[0] + '/' +
-                        date[2] +
-                        '/')
-                    .getTime() / 1000) + 1;
+                        .checked ? 1 : 0;
                 if (!(title ||  content || date)) {
                     alert('Certains champs ne sont pas remplis.');
                     return false;
                 }
 
-                News.save(title, content, date, id, mag);
+                News.save(function(response) {
+                    news = response;
+                    $scope.news = news;
+                }, title, content, date, id, mag);
                 $scope.addNews();
             };
 
@@ -51,8 +46,12 @@ angular.module('adminApp')
 
             $scope.addNews = function() {
                 $scope.currentNews = {
-                    date: date
+                    date: date,
+                    content: '',
+                    mag: 0
                 };
+                document.getElementById('newsMag')
+                    .checked = false;
                 $scope.sendText = 'Créer News';
             };
 
@@ -67,7 +66,7 @@ angular.module('adminApp')
 
             $scope.currentNews = {
                 date: date,
-                content: 'Nouvelle news ici.',
+                content: '',
             };
 
             $scope.tinymceOptions = {

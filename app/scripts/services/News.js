@@ -77,33 +77,47 @@ angular.module('adminApp')
                 return false;
             },
 
-            save: function(title, content, date, id, mag) {
-                var iter;
-                if (!isNaN(id)) {
-                    for (iter = 0; iter < news.length; iter++) {
-                        if (news[iter].id === id) {
-                            news[iter].content = content;
-                            news[iter].title = title;
-                            news[iter].date = date;
-                            news[iter].mag = mag;
-                            break;
-                        }
-                    }
-                }
-                else {
-                    /**
-                     * news.length is not correct for sync with server !
-                     */
-                    news.push({
-                        id: news.length,
-                        author: 'Test',
+            save: function(callback, title, content, date, id, mag) {
+                var iter,
+                    saveUrl = newsUrl + 'save/',
+                    save = this.save,
+                    id = id || 0,
+                    data = {
+                        id: id,
                         title: title,
                         content: content,
-                        date: date,
-                        mag: mag
-                    });
-                }
+                        mag: mag,
+                    };
 
+                $http({
+                    method: 'POST',
+                    url: saveUrl,
+                    data: jQuery.param(data),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    },
+                })
+                    .success(function(response) {
+                        if (parseInt(response) === 0) {
+                            return alert(
+                                'Vous êtes déconnecter. Veuillez vous reconnecter pour sauver la News.'
+                            );
+                        }
+                        var saved = Server.processResponse(response)[0];
+                        if (id && angular.isNumber(id)) {
+                            for (iter = 0; iter < news.length; iter++) {
+                                if (news[iter].id === id) {
+                                    news[iter] = saved;
+                                    break;
+                                }
+                            }
+                        }
+                        else {
+                            news.push(saved);
+                        }
+                        callback(news);
+                    })
+                    .error(Server.errorHandler);
             },
 
         };
