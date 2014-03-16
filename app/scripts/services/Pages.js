@@ -11,7 +11,6 @@ angular.module('adminApp')
                 cache: 'true'
             })
                 .success(function(response) {
-                    debugger;
                     var iter, filter;
                     var processed = Server.processResponse(response);
                     for (iter = 0; iter < processed.length; iter++) {
@@ -72,35 +71,42 @@ angular.module('adminApp')
                     .error(Server.errorHandler);
             },
 
-            save: function(id, page) {
-                var iter;
-                if (id || angular.isNumber(id)) {
-                    for (iter = 0; iter < pages.length; iter++) {
-                        if (pages[iter].id === id) {
-                            pages[iter] = {
-                                id: id,
-                                name: page.name,
-                                content: page.content,
-                            };
-                            return pages[iter];
+            save: function(callback, page) {
+                var iter,
+                    id = page.id || 0,
+                    saveUrl = pageUrl + 'save/',
+                    save = this.save;
+                page.id = id;
+
+                $http({
+                    method: 'POST',
+                    url: saveUrl,
+                    data: jQuery.param(page),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    },
+                })
+                    .success(function(response) {
+                        if (parseInt(response) === 0) {
+                            return alert(
+                                'Vous êtes déconnecter. Veuillez vous reconnecter pour sauver la page.'
+                            );
                         }
-                    }
-                }
-                else {
-                    /*
-                     * TODO:
-                     * Don't sync with server here. Instead do it when user clicks on "Enregistrer",
-                     * and then adjust the page id. (page.length is buggy)
-                     */
-                    var id = pages.length,
-                        page = {
-                            id: id,
-                            name: 'Nouvelle page',
-                            content: '<p>Contenu de la nouvelle page.</p>',
-                        };
-                    pages.push(page);
-                    return page;
-                }
+                        var saved = Server.processResponse(response)[0];
+                        if (id && angular.isNumber(id)) {
+                            for (iter = 0; iter < pages.length; iter++) {
+                                if (pages[iter].id === id) {
+                                    pages[iter] = saved;
+                                    break;
+                                }
+                            }
+                        }
+                        else {
+                            pages.push(saved);
+                        }
+                        callback(saved);
+                    })
+                    .error(Server.errorHandler);
             },
 
         };

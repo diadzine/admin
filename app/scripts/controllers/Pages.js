@@ -29,25 +29,29 @@ angular.module('adminApp')
                 if (conf) {
                     Pages.delete(function(response) {
                         pages = response;
-                        scope.modify(pages[0].id);
+                        $scope.modify(pages[0].id);
                     }, id);
                 }
                 return;
             };
 
             $scope.save = function() {
-                var id = $scope.activePage;
                 var page = {
-                    id: id,
+                    id: $scope.activePage,
                     name: $scope.currentTitle,
                     content: $scope.tinyMceContent,
                 };
-                Pages.save(id, page);
+                Pages.save(function(saved) {
+                    Pages.getPage(function(response) {
+                        pages = response;
+                        $scope.pages = pages;
+                        $scope.modify(saved.id);
+                    });
+                }, page);
             };
 
             $scope.addPage = function() {
-                var newPage = Pages.save();
-                $scope.modify(newPage.id);
+                $scope.modify(0);
             };
 
             $scope.tinymceOptions = {
