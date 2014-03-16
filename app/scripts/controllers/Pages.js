@@ -3,13 +3,22 @@
 angular.module('adminApp')
     .controller('PagesCtrl', ['$scope', 'Pages',
         function($scope, Pages) {
-            var pages = Pages.getPages()
+            var pages = [];
+            Pages.getPage(function(response) {
+                pages = response;
+                $scope.currentTitle = pages[0].name;
+                $scope.activePage = pages[0].id;
+                $scope.tinyMceContent = pages[0].content;
+                $scope.pages = pages;
+            });
 
             $scope.modify = function(id) {
-                var page = Pages.getPages(id);
-                $scope.currentTitle = page.name;
-                $scope.activePage = page.id;
-                $scope.tinyMceContent = page.content;
+                Pages.getPage(function(response) {
+                    var page = response;
+                    $scope.currentTitle = page.name;
+                    $scope.activePage = page.id;
+                    $scope.tinyMceContent = page.content;
+                }, id);
             };
 
             $scope.delete = function() {
@@ -19,7 +28,7 @@ angular.module('adminApp')
                         id + ' ?');
                 if (conf) {
                     Pages.delete(id);
-                    pages = Pages.getPages();
+                    pages = Pages.getPage();
                     scope.modify(pages[0].id);
                 }
                 return;
@@ -39,14 +48,6 @@ angular.module('adminApp')
                 var newPage = Pages.save();
                 $scope.modify(newPage.id);
             };
-
-            $scope.currentTitle = pages[0].name;
-
-            $scope.activePage = pages[0].id;
-
-            $scope.tinyMceContent = pages[0].content;
-
-            $scope.pages = pages;
 
             $scope.tinymceOptions = {
                 selector: 'textarea',

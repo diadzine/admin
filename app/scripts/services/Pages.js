@@ -1,40 +1,53 @@
 'use strict';
 
 angular.module('adminApp')
-    .factory('Pages', function() {
-        var pages = [{
-            id: 0,
-            name: 'Publicité',
-            content: '<p>Il n\'y a presque rien ici 1 ! </p>',
-        }, {
-            id: 1,
-            name: 'Staff',
-            content: '<p>Il n\'y a presque rien ici 2 ! </p>',
-        }, {
-            id: 2,
-            name: 'Nounours',
-            content: '<p>Il n\'y a presque rien ici 3 ! </p>',
-        }, {
-            id: 3,
-            name: 'Admin',
-            content: '<p>Il n\'y a presque rien ici 4 ! </p>',
-        }, {
-            id: 4,
-            name: 'Jean de La Fontaine',
-            content: '<p>Il n\'y a presque rien ici 5 ! </p>',
-        }, ];
-        return {
-            getPages: function(id) {
-                var iter;
-                if (id || angular.isNumber(id)) {
-                    for (iter = 0; iter < pages.length; iter++) {
-                        if (pages[iter].id === id) {
-                            return pages[iter];
+    .factory('Pages', function($http, Server) {
+        var pages = [];
+
+        var pageUrl = Server.Url + 'pages/';
+        var loadPages;
+        loadPages = function(callback) {
+            $http.get(pageUrl, {
+                cache: 'true'
+            })
+                .success(function(response) {
+                    debugger;
+                    var iter, filter;
+                    var processed = Server.processResponse(response);
+                    for (iter = 0; iter < processed.length; iter++) {
+                        filter = pages.some(function(el) {
+                            return JSON.stringify(el) === JSON.stringify(
+                                processed[iter]);
+                        });
+                        if (!filter) {
+                            pages.push(processed[iter]);
                         }
                     }
+                    callback(pages);
+                })
+                .error(Server.errorHandler);
+        };
+
+        return {
+            getPage: function(callback, id) {
+                var getPage;
+                if (pages.length < 1) {
+                    getPage = this.getPage;
+                    loadPages(function() {
+                        getPage(callback, id);
+                    });
                 }
                 else {
-                    return pages;
+                    if (id && angular.isNumber(id)) {
+                        var page = pages.filter(function(el) {
+                            return el.id === +id;
+                        })[0];
+                        page = page ? page : {};
+                        callback(page);
+                    }
+                    else {
+                        callback(pages);
+                    }
                 }
             },
 
