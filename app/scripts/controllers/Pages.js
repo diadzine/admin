@@ -27,9 +27,10 @@ angular.module('adminApp')
                         'Voulez-vous vraiment supprimer la news n°' +
                         id + ' ?');
                 if (conf) {
-                    Pages.delete(id);
-                    pages = Pages.getPage();
-                    scope.modify(pages[0].id);
+                    Pages.delete(function(response) {
+                        pages = response;
+                        scope.modify(pages[0].id);
+                    }, id);
                 }
                 return;
             };

@@ -51,15 +51,25 @@ angular.module('adminApp')
                 }
             },
 
-            delete: function(id) {
-                var iter;
-                for (iter = 0; iter < pages.length; iter++) {
-                    if (pages[iter].id === id) {
-                        pages.splice(iter, 1);
-                        return true;
-                    }
-                }
-                return false;
+            delete: function(callback, id) {
+                var deleteUrl = pageUrl + 'delete/?id=' + id;
+                $http.get(deleteUrl)
+                    .success(function(response) {
+                        var iter;
+                        if (parseInt(response) === 0) {
+                            alert('La suppression de la page a échoué.');
+                        }
+                        else {
+                            for (iter = 0; iter < pages.length; iter++) {
+                                if (pages[iter].id === id) {
+                                    pages.splice(iter, 1);
+                                    break;
+                                }
+                            }
+                            callback(pages);
+                        }
+                    })
+                    .error(Server.errorHandler);
             },
 
             save: function(id, page) {
