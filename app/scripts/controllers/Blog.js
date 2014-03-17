@@ -24,7 +24,6 @@ angular.module('adminApp')
 
             $scope.select = function(id) {
                 Bloggers.getBlogger(function(blogger) {
-                    debugger;
                     $scope.activeBlogger = id;
                     $scope.blogger = blogger;
                     $scope.blogPosts = BlogPosts.getPosts($scope.activeBlogger);
@@ -47,7 +46,6 @@ angular.module('adminApp')
 
                 if (conf) {
                     Bloggers.delete(function(response) {
-                        // debugger;
                         bloggers = response;
                         $scope.bloggers = response;
                         $scope.select(bloggers[0].id);
