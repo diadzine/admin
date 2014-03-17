@@ -3,7 +3,7 @@
 angular.module('adminApp')
     .factory('Bloggers', function($http, Server) {
         var blogs = [],
-            blogsUrl = Server.Url + 'blogs/';
+            blogsUrl = Server.Url + 'blogs/bloggers/';
         var loadBloggers;
 
         loadBloggers = function(callback, id) {
@@ -60,16 +60,27 @@ angular.module('adminApp')
                 }
             },
 
-            delete: function(blogger) {
+            delete: function(callback, blogger) {
                 var id = blogger.id,
-                    iter;
-                for (iter = 0; iter < bloggers.length; iter++) {
-                    if (bloggers[iter].id === id) {
-                        bloggers.splice(iter, 1);
-                        return bloggers;
-                    }
-                }
-                return bloggers;
+                    deleteUrl = blogsUrl + 'delete/?id=' + id;
+                $http.get(deleteUrl)
+                    .success(function(response) {
+                        if (parseInt(response) === 0) {
+                            return alert(
+                                'La suppression a échoué du coté serveur.'
+                            );
+                        }
+                        var iter;
+                        for (iter = 0; iter < blogs.length; iter++) {
+                            if (blogs[iter].id === id) {
+                                blogs.splice(iter, 1);
+                                break;
+                            }
+                        }
+                        callback(blogs);
+
+                    })
+                    .error(Server.errorHandler);
             },
 
             save: function(id, blogger) {

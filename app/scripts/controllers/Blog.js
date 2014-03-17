@@ -24,7 +24,8 @@ angular.module('adminApp')
 
             $scope.select = function(id) {
                 Bloggers.getBlogger(function(blogger) {
-                    $scope.activeBlogger = blogger.id;
+                    debugger;
+                    $scope.activeBlogger = id;
                     $scope.blogger = blogger;
                     $scope.blogPosts = BlogPosts.getPosts($scope.activeBlogger);
                     $scope.currentNews = {};
@@ -45,11 +46,13 @@ angular.module('adminApp')
                     blogger = $scope.blogger;
 
                 if (conf) {
-                    $scope.bloggers = Bloggers.delete(blogger);
-                    $scope.select($scope.bloggers[0].id);
-                    return true;
+                    Bloggers.delete(function(response) {
+                        // debugger;
+                        bloggers = response;
+                        $scope.bloggers = response;
+                        $scope.select(bloggers[0].id);
+                    }, blogger);
                 }
-                return false;
             };
 
             $scope.saveBlogger = function() {

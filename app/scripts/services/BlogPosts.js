@@ -31,6 +31,33 @@ angular.module('adminApp')
             date: 1329390694,
         }, ];
 
+        var loadBlogPosts;
+
+        loadBlogPosts = function(callback, id) {
+            var url = blogsUrl + 'posts/';
+            $http.get(url, {
+                cache: 'true'
+            })
+                .success(function(response) {
+                    var iter, filter;
+                    var processed = Server.processResponse(response);
+
+                    for (iter = 0; iter < processed.length; iter++) {
+                        filter = posts.some(function(el) {
+                            return JSON.stringify(el) === JSON.stringify(
+                                processed[iter]);
+                        });
+                        if (!filter) {
+                            posts.push(processed[iter]);
+                        }
+                    }
+                    processed = processed.length > 1 ? processed :
+                        processed[0];
+                    callback(processed);
+                })
+                .error(Server.errorHandler);
+        };
+
         return {
             delete: function(postId, blogId) {
                 var iter, selected = [];
