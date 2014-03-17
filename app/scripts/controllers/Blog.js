@@ -3,14 +3,33 @@
 angular.module('adminApp')
     .controller('BlogCtrl', ['$scope', 'Bloggers', 'BlogPosts',
         function($scope, Bloggers, BlogPosts) {
-            var bloggers = Bloggers.getBloggers();
+            var bloggers = [];
+            Bloggers.getBlogger(function(response) {
+                bloggers = response;
+
+                $scope.bloggers = bloggers;
+
+                $scope.activeBlogger = bloggers[0].id;
+
+                $scope.blogger = bloggers[0];
+
+                $scope.blogPosts = BlogPosts.getPosts($scope.activeBlogger);
+
+                $scope.currentNews = {
+                    date: parseInt((new Date()
+                        .getTime()) / 1000),
+                    blogId: $scope.activeBlogger,
+                };
+            });
 
             $scope.select = function(id) {
-                var blogger = Bloggers.getBloggers(id);
-                $scope.activeBlogger = blogger.id;
-                $scope.blogger = blogger;
-                $scope.blogPosts = BlogPosts.getPosts($scope.activeBlogger);
-                $scope.currentNews = {};
+                Bloggers.getBlogger(function(blogger) {
+                    $scope.activeBlogger = blogger.id;
+                    $scope.blogger = blogger;
+                    $scope.blogPosts = BlogPosts.getPosts($scope.activeBlogger);
+                    $scope.currentNews = {};
+
+                }, id);
             };
 
             $scope.addBlog = function() {
@@ -77,7 +96,8 @@ angular.module('adminApp')
 
             $scope.addNews = function() {
                 $scope.currentNews = {
-                    date: parseInt((new Date().getTime()) / 1000),
+                    date: parseInt((new Date()
+                        .getTime()) / 1000),
                     blogId: $scope.activeBlogger,
                 };
             };
@@ -88,7 +108,8 @@ angular.module('adminApp')
 
             $scope.saveNews = function() {
                 var post = $scope.currentNews;
-                post.date = post.date || parseInt((new Date().getTime()) /
+                post.date = post.date || parseInt((new Date()
+                        .getTime()) /
                     1000);
                 BlogPosts.save(post);
                 $scope.blogPosts = BlogPosts.getPosts(post.blogId);
@@ -104,19 +125,6 @@ angular.module('adminApp')
                     return true;
                 }
                 return false;
-            };
-
-            $scope.bloggers = bloggers;
-
-            $scope.activeBlogger = bloggers[0].id;
-
-            $scope.blogger = bloggers[0];
-
-            $scope.blogPosts = BlogPosts.getPosts($scope.activeBlogger);
-
-            $scope.currentNews = {
-                date: parseInt((new Date().getTime()) / 1000),
-                blogId: $scope.activeBlogger,
             };
 
             $scope.tinymceOptionsBio = {

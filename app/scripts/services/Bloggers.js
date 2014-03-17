@@ -1,64 +1,63 @@
 'use strict';
 
 angular.module('adminApp')
-    .factory('Bloggers', function() {
-        var bloggers = [{
-            id: 0,
-            name: 'Axel Béguelin',
-            linkResults: 'http://data.fis-ski.com/dynamic/athlete-biography.html?sector=AL&competitorid=190056&type=result',
-            profilePic: 'http://www.arcinfo.ch/multimedia/images/archives_arcinfo//2010.04.09/axel_beguelin.jpg',
-            biography: 'Né: 12.12.12 <br /> Mange des petits poids au petit déjeuner. <br /> Il y a beaucoup de petits dans la phrase précédente, mais au moins elle n\'est pas trop courte.',
-            sponsors: [
-                'http://snow.co.nz/media/uploads/2012/06/logo-atomic.jpg',
-                'http://3.bp.blogspot.com/_8cOgwU34ueU/TH6rXYo9kBI/AAAAAAAABaQ/ueZjXw7bpYk/s1600/fi_main-logo_4c_high.jpg',
-                'http://www.daillon.ch/wordpress/wp-content/uploads/2013/10/1357755346.jpg',
-            ],
-            ad: [
-                'http://www.vitagora.com/assets/images/logos/Laiterie_de_bresse_logo.jpg',
-                'http://www.pole-formation-savoie.fr/uploads/images/UIMM_PF_SAADOSIS.jpg',
-                'http://www.daillon.ch/wordpress/wp-content/uploads/2013/10/1357755346.jpg',
-            ]
-        }, {
-            id: 1,
-            name: 'Antoine Perrotet',
-            linkResults: 'http://data.fis-ski.com/dynamic/athlete-biography.html?sector=AL&competitorid=190056&type=result',
-            profilePic: 'http://www.arcinfo.ch/multimedia/images/archives_arcinfo//2010.04.09/axel_beguelin.jpg',
-            biography: 'Né: 12.12.12 <br /> Mange des petits poids au petit déjeuner. <br /> Il y a beaucoup de petits dans la phrase précédente, mais au moins elle n\'est pas trop courte.',
-            sponsors: [
-                'http://snow.co.nz/media/uploads/2012/06/logo-atomic.jpg',
-                'http://www.vitagora.com/assets/images/logos/Laiterie_de_bresse_logo.jpg',
-                'http://www.pole-formation-savoie.fr/uploads/images/UIMM_PF_SAADOSIS.jpg',
-            ],
-            ad: [
-                'http://snow.co.nz/media/uploads/2012/06/logo-atomic.jpg',
-                'http://www.pole-formation-savoie.fr/uploads/images/UIMM_PF_SAADOSIS.jpg',
-                'http://www.daillon.ch/wordpress/wp-content/uploads/2013/10/1357755346.jpg',
-            ]
-        }, {
-            id: 2,
-            name: 'Jean de La Fontaine',
-            linkResults: 'http://data.fis-ski.com/dynamic/athlete-biography.html?sector=AL&competitorid=190056&type=result',
-            profilePic: 'http://www.arcinfo.ch/multimedia/images/archives_arcinfo//2010.04.09/axel_beguelin.jpg',
-            biography: 'Né: 12.12.12 <br /> Mange des petits poids au petit déjeuner. <br /> Il y a beaucoup de petits dans la phrase précédente, mais au moins elle n\'est pas trop courte.',
-            sponsors: [
-                'http://snow.co.nz/media/uploads/2012/06/logo-atomic.jpg',
-                'http://3.bp.blogspot.com/_8cOgwU34ueU/TH6rXYo9kBI/AAAAAAAABaQ/ueZjXw7bpYk/s1600/fi_main-logo_4c_high.jpg',
-                'http://www.daillon.ch/wordpress/wp-content/uploads/2013/10/1357755346.jpg',
-            ],
-            ad: [
-                'http://www.pole-formation-savoie.fr/uploads/images/UIMM_PF_SAADOSIS.jpg',
-                'http://3.bp.blogspot.com/_8cOgwU34ueU/TH6rXYo9kBI/AAAAAAAABaQ/ueZjXw7bpYk/s1600/fi_main-logo_4c_high.jpg',
-                'http://www.vitagora.com/assets/images/logos/Laiterie_de_bresse_logo.jpg',
-            ]
-        }, ];
+    .factory('Bloggers', function($http, Server) {
+        var blogs = [],
+            blogsUrl = Server.Url + 'blogs/';
+        var loadBloggers;
+
+        loadBloggers = function(callback, id) {
+            var url = blogsUrl + (id ? '?id=' + id : '');
+            $http.get(url, {
+                cache: 'true'
+            })
+                .success(function(response) {
+                    var iter, filter;
+                    var processed = Server.processResponse(response);
+                    processed = processed.map(function(el) {
+                        el.ad = el.ad.split('|');
+                        el.sponsors = el.sponsors.split('|');
+                        return el;
+                    });
+
+                    for (iter = 0; iter < processed.length; iter++) {
+                        filter = blogs.some(function(el) {
+                            return JSON.stringify(el) === JSON.stringify(
+                                processed[iter]);
+                        });
+                        if (!filter) {
+                            blogs.push(processed[iter]);
+                        }
+                    }
+                    processed = processed.length > 1 ? processed :
+                        processed[0];
+                    callback(processed);
+                })
+                .error(Server.errorHandler);
+        };
+
+
         return {
-            getBloggers: function(id) {
-                if (id || angular.isNumber(id)) {
-                    return bloggers.filter(function(el) {
-                        return el.id === id;
-                    })[0];
+            getBlogger: function(callback, id) {
+                var getBlogger;
+                if (blogs.length < 1) {
+                    getBlogger = this.getBlogger;
+                    loadBloggers(function() {
+                        getBlogger(callback, id);
+                    });
                 }
-                return bloggers;
+                else {
+                    if (id && angular.isNumber(id)) {
+                        var blogger = blogs.filter(function(el) {
+                            return el.id === parseInt(id);
+                        });
+                        blogger = blogger[0] ? blogger[0] : {};
+                        callback(blogger);
+                    }
+                    else {
+                        callback(blogs);
+                    }
+                }
             },
 
             delete: function(blogger) {
