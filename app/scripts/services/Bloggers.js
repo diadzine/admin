@@ -83,36 +83,48 @@ angular.module('adminApp')
                     .error(Server.errorHandler);
             },
 
-            save: function(id, blogger) {
-                var iter;
-                if (id || angular.isNumber(id)) {
-                    for (iter = 0; iter < bloggers.length; iter++) {
-                        if (bloggers[iter].id === id) {
-                            bloggers[iter] = blogger;
-                            return bloggers[iter];
-                        }
-                    }
-                }
-                else {
-                    /*
-                     * TODO:
-                     * Don't sync with server here. Instead do it when user clicks on "Enregistrer",
-                     * and then adjust the page id. (page.length is buggy)
-                     */
-                    var id = bloggers.length,
-                        blogger = {
-                            id: id,
-                            name: 'Nouveau Blog',
-                            linkResults: '',
-                            profilePic: '',
-                            biography: '',
-                            sponsors: [],
-                            ad: []
-                        };
-                    bloggers.push(blogger);
-                    return blogger;
-                }
+            save: function(calback, id, blogger) {
 
+                var iter,
+                    saveUrl = blogsUrl + 'save/',
+                    save = this.save,
+                    id = id || 0,
+                    data;
+                debugger;
+                blogger.id = id;
+                blogger.ad = blogger.ad.join('|');
+                blogger.sponsors = blogger.sponsors.join('|');
+                data = jQuery.param(blogger);
+
+                $http({
+                    method: 'POST',
+                    url: saveUrl,
+                    data: data,
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    },
+                })
+                    .success(function(response) {
+                        if (parseInt(response) === 0) {
+                            return alert(
+                                'Vous êtes déconnecter. Veuillez vous reconnecter pour sauver la News.'
+                            );
+                        }
+                        var saved = Server.processResponse(response)[0];
+                        if (id && angular.isNumber(id)) {
+                            for (iter = 0; iter < news.length; iter++) {
+                                if (blogs[iter].id === id) {
+                                    blogs[iter] = saved;
+                                    break;
+                                }
+                            }
+                        }
+                        else {
+                            blogs.push(saved);
+                        }
+                        callback(saved);
+                    })
+                    .error(Server.errorHandler);
             },
 
         };

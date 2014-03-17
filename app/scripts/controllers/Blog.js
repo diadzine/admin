@@ -33,6 +33,7 @@ angular.module('adminApp')
             };
 
             $scope.addBlog = function() {
+                /*Change that... Don't use .save(). */
                 var blogger = Bloggers.save(null);
                 $scope.activeBlogger = blogger.id;
                 $scope.blogger = blogger;
@@ -56,7 +57,17 @@ angular.module('adminApp')
             $scope.saveBlogger = function() {
                 var id = $scope.activeBlogger,
                     blogger = $scope.blogger;
-                Bloggers.save(id, blogger);
+                Bloggers.save(function(saved) {
+                    Bloggers.getBlogger(function(response) {
+                        $scope.blogger = saved;
+                        $scope.activeBlogger = saved.id;
+                        bloggers = response;
+                        $scope.bloggers = bloggers;
+                        $scope.blogPosts = BlogPosts.getPosts(
+                            $scope.activeBlogger);
+
+                    });
+                }, id, blogger);
             };
 
             $scope.removeSponsor = function(sponsor) {
