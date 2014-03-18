@@ -90,7 +90,6 @@ angular.module('adminApp')
                     save = this.save,
                     id = id || 0,
                     data;
-                debugger;
                 blogger.id = id;
                 blogger.ad = blogger.ad.join('|');
                 blogger.sponsors = blogger.sponsors.join('|');
