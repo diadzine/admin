@@ -41,8 +41,6 @@ angular.module('adminApp')
             };
 
             $scope.addBlog = function() {
-                /*Todo: Change that... Don't use .save(). */
-                // var blogger = Bloggers.save(null);
                 $scope.activeBlogger = 0;
                 $scope.blogger = {};
             };
