@@ -1,40 +1,15 @@
 'use strict';
 
 angular.module('adminApp')
-    .factory('BlogPosts', function() {
-        /**
-         * TODO: Change and add for each the blogger category.
-         */
-        var posts = [{
-            id: 0,
-            blogId: 0,
-            title: 'News n°0 avec super long titre',
-            content: 'Mon super text, avec du html: <img src="http://www.google.ch/logos/doodles/2014/annette-von-droste-hulshoffs-217th-birthday-5701007384248320.2-hp.jpg" /><a href="http://tooski.ch"></a>',
-            date: 1329390694,
-        }, {
-            id: 1,
-            blogId: 0,
-            title: 'News n°1 avec super long titre',
-            content: 'Mon super text, avec du html: <img src="http://www.google.ch/logos/doodles/2014/annette-von-droste-hulshoffs-217th-birthday-5701007384248320.2-hp.jpg" /><a href="http://tooski.ch"></a>',
-            date: 1329390694,
-        }, {
-            id: 2,
-            blogId: 1,
-            title: 'News n°2 avec super long titre',
-            content: 'Mon super text, avec du html: <img src="http://www.google.ch/logos/doodles/2014/annette-von-droste-hulshoffs-217th-birthday-5701007384248320.2-hp.jpg" /><a href="http://tooski.ch"></a>',
-            date: 1329390694,
-        }, {
-            id: 3,
-            blogId: 2,
-            title: 'News n°3 avec super long titre',
-            content: 'Mon super text, avec du html: <img src="http://www.google.ch/logos/doodles/2014/annette-von-droste-hulshoffs-217th-birthday-5701007384248320.2-hp.jpg" /><a href="http://tooski.ch"></a>',
-            date: 1329390694,
-        }, ];
+    .factory('BlogPosts', function($http, Server) {
+        var posts = [],
+            postsUrl = Server.Url + 'blogs/posts/';
 
         var loadBlogPosts;
 
-        loadBlogPosts = function(callback, id) {
-            var url = blogsUrl + 'posts/';
+        loadBlogPosts = function(callback, blogId, id) {
+            var url = postsUrl + 'blog/?blogId=' + blogId;
+            url = id ? url + '&id=' + id : url;
             $http.get(url, {
                 cache: 'true'
             })
@@ -42,13 +17,17 @@ angular.module('adminApp')
                     var iter, filter;
                     var processed = Server.processResponse(response);
 
+                    if (!posts[blogId]) {
+                        posts[blogId] = [];
+                    }
+
                     for (iter = 0; iter < processed.length; iter++) {
-                        filter = posts.some(function(el) {
+                        filter = posts[blogId].some(function(el) {
                             return JSON.stringify(el) === JSON.stringify(
                                 processed[iter]);
                         });
                         if (!filter) {
-                            posts.push(processed[iter]);
+                            posts[blogId].push(processed[iter]);
                         }
                     }
                     processed = processed.length > 1 ? processed :
@@ -93,18 +72,26 @@ angular.module('adminApp')
                 return false;
             },
 
-            getPosts: function(blogId, id) {
-                var selected;
-                if (!id && !angular.isNumber(id)) {
-                    return posts.filter(function(el) {
-                        return el.blogId === blogId;
-                    });
+            getPosts: function(callback, blogId, id) {
+                var getPosts;
+                debugger;
+                if (!posts[blogId] || posts[blogId].length < 1) {
+                    getPosts = this.getPosts;
+                    loadBlogPosts(function() {
+                        getPosts(callback, blogId, id);
+                    }, blogId, id);
                 }
                 else {
-                    selected = posts.filter(function(el) {
-                        return el.id === id;
-                    });
-                    return selected[0];
+                    if (id && angular.isNumber(id)) {
+                        var post = posts[blogId].filter(function(el) {
+                            return el.id === parseInt(id);
+                        });
+                        post = post[0] ? post[0] : {};
+                        callback(post);
+                    }
+                    else {
+                        callback(posts[blogId]);
+                    }
                 }
             },
 

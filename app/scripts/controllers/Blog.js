@@ -13,11 +13,13 @@ angular.module('adminApp')
 
                 $scope.blogger = bloggers[0];
 
-                $scope.blogPosts = BlogPosts.getPosts($scope.activeBlogger);
+                BlogPosts.getPosts(function(response) {
+                    $scope.blogPosts = response;
+                }, $scope.activeBlogger);
 
                 $scope.currentNews = {
-                    date: parseInt((new Date()
-                        .getTime()) / 1000),
+                    date: parseInt(new Date()
+                        .getTime()),
                     blogId: $scope.activeBlogger,
                 };
             });
@@ -26,14 +28,20 @@ angular.module('adminApp')
                 Bloggers.getBlogger(function(blogger) {
                     $scope.activeBlogger = id;
                     $scope.blogger = blogger;
-                    $scope.blogPosts = BlogPosts.getPosts($scope.activeBlogger);
-                    $scope.currentNews = {};
+                    BlogPosts.getPosts(function(response) {
+                        $scope.blogPosts = response;
+                        $scope.currentNews = {
+                            date: parseInt(new Date()
+                                .getTime()),
+                            blogId: $scope.activeBlogger,
+                        };
+                    }, $scope.activeBlogger);
 
                 }, id);
             };
 
             $scope.addBlog = function() {
-                /*Change that... Don't use .save(). */
+                /*Todo: Change that... Don't use .save(). */
                 var blogger = Bloggers.save(null);
                 $scope.activeBlogger = blogger.id;
                 $scope.blogger = blogger;
@@ -63,9 +71,9 @@ angular.module('adminApp')
                         $scope.activeBlogger = saved.id;
                         bloggers = response;
                         $scope.bloggers = bloggers;
-                        $scope.blogPosts = BlogPosts.getPosts(
-                            $scope.activeBlogger);
-
+                        BlogPosts.getPosts(function(response) {
+                            $scope.blogPosts = response;
+                        }, $scope.activeBlogger);
                     });
                 }, id, blogger);
             };
