@@ -116,8 +116,8 @@ angular.module('adminApp')
 
             $scope.addNews = function() {
                 $scope.currentNews = {
-                    date: parseInt((new Date()
-                        .getTime()) / 1000),
+                    date: parseInt(new Date()
+                        .getTime()),
                     blogId: $scope.activeBlogger,
                 };
             };
@@ -128,9 +128,8 @@ angular.module('adminApp')
 
             $scope.saveNews = function() {
                 var post = $scope.currentNews;
-                post.date = post.date || parseInt((new Date()
-                        .getTime()) /
-                    1000);
+                post.date = post.date || parseInt(new Date()
+                    .getTime());
                 BlogPosts.save(post);
                 $scope.blogPosts = BlogPosts.getPosts(post.blogId);
             };
