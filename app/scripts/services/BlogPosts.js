@@ -58,22 +58,45 @@ angular.module('adminApp')
                     .error(Server.errorHandler);
             },
 
-            save: function(post) {
-                var iter;
-                if (post.id || angular.isNumber(post.id)) {
-                    for (iter = 0; iter < posts.length; iter++) {
-                        if (posts[iter].id === post.id) {
-                            posts[iter] = post;
-                            return true;
+            save: function(callback, post) {
+                debugger;
+                var iter,
+                    saveUrl = postsUrl + 'save/',
+                    save = this.save,
+                    id = post.id || 0,
+                    data;
+                post.id = id;
+                data = jQuery.param(post);
+
+                $http({
+                    method: 'POST',
+                    url: saveUrl,
+                    data: data,
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    },
+                })
+                    .success(function(response) {
+                        if (parseInt(response) === 0) {
+                            return alert(
+                                'Vous êtes déconnecter. Veuillez vous reconnecter pour sauver la News.'
+                            );
                         }
-                    }
-                }
-                else {
-                    post.id = posts.length;
-                    posts.push(post);
-                    return true;
-                }
-                return false;
+                        var saved = Server.processResponse(response)[0];
+                        if (id && angular.isNumber(id)) {
+                            for (iter = 0; iter < posts[post.blogId].length; iter++) {
+                                if (posts[post.blogId][iter].id === id) {
+                                    posts[post.blogId][iter] = saved;
+                                    break;
+                                }
+                            }
+                        }
+                        else {
+                            posts[post.blogId].push(saved);
+                        }
+                        callback(saved);
+                    })
+                    .error(Server.errorHandler);
             },
 
             getPosts: function(callback, blogId, id) {

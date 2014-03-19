@@ -127,11 +127,18 @@ angular.module('adminApp')
             };
 
             $scope.saveNews = function() {
-                var post = $scope.currentNews;
+                var post = $scope.currentNews,
+                    blogId = post.blogId;
+
                 post.date = post.date || parseInt(new Date()
                     .getTime());
-                BlogPosts.save(post);
-                $scope.blogPosts = BlogPosts.getPosts(post.blogId);
+
+                BlogPosts.save(function(saved) {
+                    BlogPosts.getPosts(function(response) {
+                        $scope.currentNews = saved;
+                        $scope.blogPosts = response;
+                    }, blogId);
+                }, post);
             };
 
             $scope.deleteNews = function(postId) {

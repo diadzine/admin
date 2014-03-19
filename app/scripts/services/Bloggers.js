@@ -84,7 +84,6 @@ angular.module('adminApp')
             },
 
             save: function(calback, id, blogger) {
-
                 var iter,
                     saveUrl = blogsUrl + 'save/',
                     save = this.save,
