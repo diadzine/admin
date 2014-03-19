@@ -38,20 +38,24 @@ angular.module('adminApp')
         };
 
         return {
-            delete: function(postId, blogId) {
-                var iter, selected = [];
-                for (iter = 0; iter < posts.length; iter++) {
-                    if (posts[iter].blogId === blogId) {
-                        if (posts[iter].id === postId) {
-                            posts.splice(iter, 1);
-                            iter--;
+            delete: function(callback, postId, blogId) {
+                var deleteUrl = postsUrl + 'delete/?id=' + blogId;
+                $http.get(deleteUrl)
+                    .success(function(response) {
+                        var iter;
+                        if (parseInt(response) === 0) {
+                            return alert('Suppression a échoué.');
                         }
-                        else {
-                            selected.push(posts[iter]);
+                        for (iter = 0; iter < posts[blogId].length; iter++) {
+                            if (posts[blogId][iter].id === blogId) {
+                                posts[blogId].splice(iter, 1);
+                                break;
+                            }
                         }
-                    }
-                }
-                return selected;
+                        callback(posts[blogId]);
+
+                    })
+                    .error(Server.errorHandler);
             },
 
             save: function(post) {
@@ -74,7 +78,6 @@ angular.module('adminApp')
 
             getPosts: function(callback, blogId, id) {
                 var getPosts;
-                debugger;
                 if (!posts[blogId] || posts[blogId].length < 1) {
                     getPosts = this.getPosts;
                     loadBlogPosts(function() {

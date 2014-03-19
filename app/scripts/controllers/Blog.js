@@ -140,10 +140,10 @@ angular.module('adminApp')
                     ' ?'),
                     blogId = $scope.activeBlogger;
                 if (conf) {
-                    $scope.blogPosts = BlogPosts.delete(postId, blogId);
-                    return true;
+                    BlogPosts.delete(function(response) {
+                        $scope.blogPosts = response;
+                    }, postId, blogId);
                 }
-                return false;
             };
 
             $scope.tinymceOptionsBio = {
