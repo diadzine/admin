@@ -12,7 +12,9 @@
         "angular-sanitize": "1.2.5",
         "angular-route": "1.2.5",
         "angular-bootstrap": "~0.9.0",
-        "angular-ui-tinymce": "latest"
+        "angular-ui-tinymce": "latest",
+        "jquery-file-upload": "9.5.7",
+        "cloudinary": "latest"
     },
     "devDependencies": {
         "angular-mocks": "1.2.5",
