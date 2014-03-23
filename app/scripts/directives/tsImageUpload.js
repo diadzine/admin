@@ -9,10 +9,27 @@
 angular.module('adminApp')
     .directive('tsImageUpload', function() {
         return {
-            template: '<div></div>',
+            template: '<input style="display:inline;" type="file" class="cloudinary-fileupload btn btn-primary" name="file" data-cloudinary-field="image_id" data-form-data="{{cloudinaryData}}" />',
             restrict: 'EACM',
             link: function postLink(scope, element, attrs) {
-                element.text('this is the tsImageUpload directive');
+                jQuery.getScript(
+                    'bower_components/cloudinary/js/jquery.cloudinary.js',
+                    function(data) {
+
+                        $.cloudinary.config({
+                            cloud_name: 'tooski',
+                            api_key: '664376587529146'
+                        });
+
+                        debugger;
+                        scope.cloudinaryData = {
+                            timestamp: 1345719094,
+                            callback: "/cloudinary_cors.html",
+                            signature: "YHcBvOXBRmOroGCAxnpx_e5jFp0",
+                            api_key: "664376587529146"
+                        };
+
+                    });
             }
         };
     });

@@ -18,7 +18,7 @@
 		<textarea id="newsContent" rows="20" ui-tinymce="tinymceOptions" ng-model="currentNews.content"></textarea>
 		<br />
 		<div class="row col-md-12">
-			<input style="display:inline;" type="file" class="btn btn-primary" value="Ajouter Images" />
+			<div ts-image-upload=""></div>
 
 			<button type="submit" id="newsSend" ng-click="sendNews();" class="btn btn-info pull-right">{{sendText}}</button>
 
