@@ -21,9 +21,19 @@ angular.module('adminApp')
                             api_key: '664376587529146'
                         });
 
+                        /* Here I should get the signature from the server.
+                        TODO:
+                        - install cloudinary on server, local and prod and pip freeze
+                        - config cloudinary server,
+                        - load signature from server to client
+                        - write callback in client once the file has been uploaded
+                        - find a way so that cloudinary bower component doesn't have to be loaded each time (eval)
+                        - Implement special callback for ads.*/
+
                         debugger;
                         scope.cloudinaryData = {
-                            timestamp: 1345719094,
+                            // timestamp: 1345719094,
+                            cloud_name: 'tooski',
                             callback: "/cloudinary_cors.html",
                             signature: "YHcBvOXBRmOroGCAxnpx_e5jFp0",
                             api_key: "664376587529146"
