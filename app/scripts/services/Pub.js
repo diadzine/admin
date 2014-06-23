@@ -2,7 +2,8 @@
 
 angular.module('adminApp')
     .factory('Pub', function($http, Server) {
-        var pubUrl = Server.Url + 'ads/';
+        var pubUrl = Server.Url + 'ads/',
+            pubApi = Server.Url + 'apiv1/ads/';
 
         var pubs = [{
             id: 0,
@@ -34,10 +35,9 @@ angular.module('adminApp')
 
         return {
 
-            remove: function(img) {
-                var pos = pubs.indexOf(img);
-                pubs.splice(pos, 1);
-                return pubs;
+            remove: function(img, callback) {
+                $http.delete(pubApi + img.id + '/')
+                    .then(callback, Server.errorHandler);
             },
 
             getPub: function(id) {
@@ -51,10 +51,11 @@ angular.module('adminApp')
                 }
             },
 
-            getCat: function(cat) {
-                return pubs.filter(function(el) {
-                    return el[cat] === 1;
-                });
+            getCat: function(cat, callback) {
+                $http.get(pubApi + '?category=' + cat)
+                    .then(function(res) {
+                        callback(res.data);
+                    }, Server.errorHandler);
             },
 
             save: function(image, ver, hor, sq, callback) {

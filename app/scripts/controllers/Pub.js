@@ -4,14 +4,19 @@ angular.module('adminApp')
     .controller('PubCtrl', function($scope, Pub) {
 
         var refresh = function() {
-            $scope.verticals = Pub.getCat('vertical');
-            $scope.horizontals = Pub.getCat('horizontal');
+            Pub.getCat('vertical', function(data) {
+                $scope.verticals = data;
+            });
+            Pub.getCat('horizontal', function(data) {
+                $scope.horizontals = data;
+            });
         };
 
         $scope.removeImage = function(image) {
             if (confirm('Effacer la publicité ?')) {
-                Pub.remove(image);
-                refresh()
+                Pub.remove(image, function() {
+                    refresh();
+                })
             }
         };
 
