@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('adminApp')
-    .factory('Pub', function() {
+    .factory('Pub', function($http, Server) {
+        var pubUrl = Server.Url + 'ads/';
 
         var pubs = [{
             id: 0,
@@ -54,6 +55,33 @@ angular.module('adminApp')
                 return pubs.filter(function(el) {
                     return el[cat] === 1;
                 });
+            },
+
+            save: function(image, ver, hor, sq, callback) {
+                var formData = new FormData();
+                formData.append('file', image);
+                formData.append('vertical', ver);
+                formData.append('horizontal', hor);
+                formData.append('square', sq);
+                $http({
+                    url: pubUrl + 'save/',
+                    method: 'POST',
+                    data: formData,
+                    transformRequest: angular.identity,
+                    headers: {
+                        'Content-Type': undefined
+                    },
+                })
+                    .then(function(res) {
+                        pubs.push({
+                            id: 10,
+                            img: res.data,
+                            vertical: ver,
+                            horizontal: hor,
+                            square: sq,
+                        });
+                        callback(res.data);
+                    }, Server.errorHandler);
             },
 
         };
