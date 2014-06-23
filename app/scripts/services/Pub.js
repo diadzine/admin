@@ -5,34 +5,6 @@ angular.module('adminApp')
         var pubUrl = Server.Url + 'ads/',
             pubApi = Server.Url + 'apiv1/ads/';
 
-        var pubs = [{
-            id: 0,
-            img: 'http://placehold.it/750x250',
-            vertical: 0,
-            horizontal: 1,
-        }, {
-            id: 1,
-            img: 'http://placehold.it/750x250',
-            vertical: 0,
-            horizontal: 1,
-        }, {
-            id: 2,
-            img: 'http://placehold.it/250x750',
-            vertical: 1,
-            horizontal: 0,
-        }, {
-            id: 3,
-            img: 'http://placehold.it/250x750',
-            vertical: 1,
-            horizontal: 0,
-        }, {
-            id: 4,
-            img: 'http://placehold.it/750x250',
-            vertical: 0,
-            horizontal: 1,
-        }, ];
-
-
         return {
 
             remove: function(img, callback) {
