@@ -10,6 +10,9 @@ angular.module('adminApp')
             Pub.getCat('horizontal', function(data) {
                 $scope.horizontals = data;
             });
+            Pub.getCat('square', function(data) {
+                $scope.squares = data;
+            });
         };
 
         $scope.removeImage = function(image) {

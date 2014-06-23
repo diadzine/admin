@@ -18,16 +18,22 @@
 	</div>
 </div>
 <div class="col-md-12 row">
-	<div class="col-md-6">
+	<div class="col-md-4">
 		<h2>Publicités Verticales</h2>
 		<div class="col-md-12" align="center">
 			<img ng-repeat="v in verticals" ng-src="{{v.url}}" style="max-height:500px;" ng-click="removeImage(v);" class="img-thumbnail" />
 		</div>
 	</div>
-	<div class="col-md-6">
+	<div class="col-md-4">
 		<h2>Publicités Horizontales</h2>
 		<div class="col-md-12" align="center">
 			<img ng-repeat="h in horizontals" ng-src="{{h.url}}" ng-click="removeImage(h);" class="img-thumbnail" />
+		</div>
+	</div>
+	<div class="col-md-4">
+		<h2>Publicités Carrés</h2>
+		<div class="col-md-12" align="center">
+			<img ng-repeat="sq in squares" ng-src="{{sq.url}}" ng-click="removeImage(sq);" class="img-thumbnail" />
 		</div>
 	</div>
 </div>
