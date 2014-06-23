@@ -32,6 +32,12 @@ angular.module('adminApp')
                 $scope.addNews();
             };
 
+            $scope.$on('tsImageUploaded', function(event, img) {
+                console.log(img);
+                $scope.currentNews.content += '<img src="' + img +
+                    '" alt="' + $scope.currentNews.title + '" />';
+            });
+
             $scope.delete = function(newsId) {
                 var c = confirm('Voulez vous vraiment supprimer la News n°' +
                     newsId + ' ?');

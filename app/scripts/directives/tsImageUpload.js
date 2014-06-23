@@ -7,39 +7,21 @@
  * (And how the directive is defined in it.)
  */
 angular.module('adminApp')
-    .directive('tsImageUpload', function() {
+    .directive('tsImageUpload', function(Pictures) {
         return {
-            template: '<input style="display:inline;" type="file" class="cloudinary-fileupload btn btn-primary" name="file" data-cloudinary-field="image_id" data-form-data="{{cloudinaryData}}" />',
+            template: '<input style="display:inline;" type="file" multiple class="btn btn-primary" id="tsImageUploader" ng-model="upload" ng-change="uploadImage(this)" />',
             restrict: 'EACM',
             link: function postLink(scope, element, attrs) {
-                jQuery.getScript(
-                    'bower_components/cloudinary/js/jquery.cloudinary.js',
-                    function(data) {
-
-                        $.cloudinary.config({
-                            cloud_name: 'tooski',
-                            api_key: '664376587529146'
+                scope.uploadImage = function(input) {
+                    var i = 0,
+                        images = angular.element('#tsImageUploader')[0].files;
+                    for (i = 0; i < images.length; i++) {
+                        Pictures.upload(images[i], function(newUrl) {
+                            scope.$emit('tsImageUploaded', newUrl);
                         });
-
-                        /* Here I should get the signature from the server.
-                        TODO:
-                        - install cloudinary on server, local and prod and pip freeze
-                        - config cloudinary server,
-                        - load signature from server to client
-                        - write callback in client once the file has been uploaded
-                        - find a way so that cloudinary bower component doesn't have to be loaded each time (eval)
-                        - Implement special callback for ads.*/
-
-                        debugger;
-                        scope.cloudinaryData = {
-                            // timestamp: 1345719094,
-                            cloud_name: 'tooski',
-                            callback: "/cloudinary_cors.html",
-                            signature: "YHcBvOXBRmOroGCAxnpx_e5jFp0",
-                            api_key: "664376587529146"
-                        };
-
-                    });
+                    }
+                };
             }
+
         };
     });
