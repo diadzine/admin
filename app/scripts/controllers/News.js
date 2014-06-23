@@ -7,7 +7,6 @@ angular.module('adminApp')
                 date = new Date()
                     .getTime();
 
-
             News.getNews(function(response) {
                 news = response;
                 $scope.news = news;
@@ -32,11 +31,11 @@ angular.module('adminApp')
                 $scope.addNews();
             };
 
-            $scope.$on('tsImageUploaded', function(event, img) {
+            $scope.uploadedImage = function(img) {
                 console.log(img);
                 $scope.currentNews.content += '<img src="' + img +
                     '" alt="' + $scope.currentNews.title + '" />';
-            });
+            };
 
             $scope.delete = function(newsId) {
                 var c = confirm('Voulez vous vraiment supprimer la News n°' +

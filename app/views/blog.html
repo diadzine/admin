@@ -34,7 +34,7 @@
 		<div class="col-md-12 row" style="margin-bottom:20px;">
 			<h4 class="col-md-3" style="display:inline;">Portrait</h4>
 			<div class="col-md-5">
-			<input type="file" class="form-control" ng-model-instant id="portraitToUpload" onchange="angular.element(this).scope().changePortrait(this)" />
+				<div ts-image-upload="" callback="changePortrait"></div>
 			</div>
 			<div class="col-md-4">
 				<img ng-src="{{blogger.profilePic}}" alt="Image du blogger" />
@@ -52,7 +52,7 @@
 			<div class="col-md-12 row">
 				<h4 class="col-md-3" style="display:inline;">Sponsors</h4>
 				<div class="col-md-9">
-					<input type="file" class="form-control" ng-model-instant id="sponsorsToUpload" multiple onchange="angular.element(this).scope().addSponsors(this)" />
+					<div ts-image-upload="" callback="addSponsors"></div>
 				</div>
 			</div>
 			<div class="col-md-10 row">
@@ -64,7 +64,7 @@
 			<div class="col-md-12 row">
 				<h4 class="col-md-3" style="display:inline;">Publicité</h4>
 				<div class="col-md-9">
-					<input type="file" class="form-control" ng-model-instant id="adToUpload" multiple onchange="angular.element(this).scope().addAd(this)" />
+					<div ts-image-upload="" callback="addAd"></div>
 				</div>
 			</div>
 			<div class="col-md-10 row">
@@ -93,7 +93,7 @@
 				<textarea id="newsContent" rows="20" ui-tinymce="tinymceOptionsNews" ng-model="currentNews.content">{{tinyMceContent}}</textarea>
 				<br />
 				<div class="row col-md-12">
-					<input style="display:inline;" type="file" class="btn btn-primary" value="Ajouter Images" />
+					<div ts-image-upload="" callback="insertBlogImage"></div>
 
 					<button type="submit" id="newsSend" ng-click="saveNews();" class="btn btn-info pull-right">Envoyer</button>
 				</div>

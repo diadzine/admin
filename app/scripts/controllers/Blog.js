@@ -87,29 +87,16 @@ angular.module('adminApp')
             };
 
             // This function should upload the picture and then modify directly the scope.blogger object.
-            $scope.changePortrait = function(element) {
-                $scope.$apply(function($scope) {
-                    console.log('files:', element.files);
-                    var files = element.files;
-                    //Write here code to upload files to server.
-                });
+            $scope.changePortrait = function(url) {
+                $scope.blogger.profilePic = url;
             };
             // This function should upload the picture and then modify directly the scope.blogger object.
-            $scope.addSponsors = function(element) {
-                $scope.$apply(function($scope) {
-                    console.log('files:', element.files);
-                    var files = element.files;
-                    //Write here code to upload files to server.
-                });
+            $scope.addSponsors = function(url) {
+                $scope.blogger.sponsors.push(url);
             };
             // This function should upload the picture and then modify directly the scope.blogger object.
-            $scope.addAd = function(element) {
-                $scope.$apply(function($scope) {
-                    console.log('files:', element.files);
-                    var files = element.files;
-                    //Write here code to upload files to server.
-                });
-
+            $scope.addAd = function(url) {
+                $scope.blogger.ad.push(url);
             };
 
             $scope.addNews = function() {
@@ -122,6 +109,11 @@ angular.module('adminApp')
 
             $scope.modifyNews = function(post) {
                 $scope.currentNews = post;
+            };
+
+            $scope.insertBlogImage = function(img) {
+                $scope.currentNews.content += '<img src="' + img +
+                    '" alt="' + $scope.currentNews.title + '" />';
             };
 
             $scope.saveNews = function() {

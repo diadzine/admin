@@ -18,7 +18,7 @@
 		<textarea id="newsContent" rows="20" ui-tinymce="tinymceOptions" ng-model="currentNews.content"></textarea>
 		<br />
 		<div class="row col-md-12">
-			<div ts-image-upload=""></div>
+			<div ts-image-upload="" callback="uploadedImage"></div>
 
 			<button type="submit" id="newsSend" ng-click="sendNews();" class="btn btn-info pull-right">{{sendText}}</button>
 
@@ -49,6 +49,6 @@
 			</tr>
 		</tbody>
 	</table>
-	
+
 </div>
 
