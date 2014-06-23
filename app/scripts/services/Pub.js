@@ -46,13 +46,6 @@ angular.module('adminApp')
                     },
                 })
                     .then(function(res) {
-                        pubs.push({
-                            id: 10,
-                            img: res.data,
-                            vertical: ver,
-                            horizontal: hor,
-                            square: sq,
-                        });
                         callback(res.data);
                     }, Server.errorHandler);
             },
