@@ -1,10 +1,22 @@
 'use strict';
 
 angular.module('adminApp')
-    .factory('User', function() {
+    .factory('User', function($cookies, $location, $http, Server) {
+        var apiUrl = Server.Url + 'apiv1/',
+            isLoggedIn = false;
+
+        if ($cookies.tooskiLogin) {
+            Server.setHeaders('Authorization', $cookies.tooskiLogin);
+            isLoggedIn = true;
+        }
+        else {
+            $location.path('#!/');
+        }
 
         return {
-            login: function(email, password) {
+            isLoggedIn: isLoggedIn,
+
+            login: function(email, password, callback) {
                 var error = '',
                     success = true;
 
@@ -24,7 +36,27 @@ angular.module('adminApp')
                 }
 
                 if (success) {
-                    // TODO: sync with server and validate.
+                    $http.post(apiUrl + 'auth-token/', {
+                        username: email,
+                        password: password,
+                    })
+                        .then(function(res) {
+                            var login = res.data;
+                            login.success = !! login.token;
+                            login.error = error;
+
+                            if (login.token) {
+                                Server.setHeaders('Authorization',
+                                    'Token ' +
+                                    login.token);
+                                $cookies.tooskiLogin = 'Token ' + login
+                                    .token;
+                                isLoggedIn = true;
+                            }
+
+
+                            callback(login);
+                        }, Server.errorHandler);
                 }
 
                 return {

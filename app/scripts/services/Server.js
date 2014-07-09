@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('adminApp')
-    .service('Server', function Server() {
+    .service('Server', function Server($http) {
         // AngularJS will instantiate a singleton by calling "new" on this function
 
         // this.Url = 'http://tooski.webfactional.com/api/';
@@ -22,5 +22,10 @@ angular.module('adminApp')
                 'There was a connection problem with the server. (' +
                 status + ')'
             );
-        }
+        };
+
+        this.setHeaders = function(key, value) {
+            $http.defaults.headers.common[key] = value;
+        };
+
     });

@@ -6,33 +6,41 @@ angular.module('adminApp')
 
             // TODO: Implement it !
             var isLoggedIn = function() {
-                return false;
+                return User.isLoggedIn;
             };
 
             if (isLoggedIn()) {
-                alert('Imagine being redirected to the News page');
+                $location.path('/News');
             }
 
             $scope.login = function() {
-                var email = document.getElementById('login-email').value,
-                    password = document.getElementById('login-password').value;
+                var email = document.getElementById('login-email')
+                    .value,
+                    password = document.getElementById('login-password')
+                        .value;
 
-                var login = User.login(email, password);
+                User.login(email, password, function(login) {
 
-                if (login.success === true) {
-                    $location.path('/News');
-                }
-                else {
-                    document.getElementById('login-errors').innerHTML =
-                        login.error;
-                }
+                    if (login.success === true) {
+                        $location.path('/News');
+                    }
+                    else {
+                        document.getElementById('login-errors')
+                            .innerHTML = login.error;
+                    }
+
+                });
             };
 
             $scope.signup = function() {
-                var email = document.getElementById('signup-email').value,
-                    password = document.getElementById('signup-password').value,
-                    confirm = document.getElementById('signup-confirm').value,
-                    name = document.getElementById('signup-name').value,
+                var email = document.getElementById('signup-email')
+                    .value,
+                    password = document.getElementById('signup-password')
+                        .value,
+                    confirm = document.getElementById('signup-confirm')
+                        .value,
+                    name = document.getElementById('signup-name')
+                        .value,
                     signature = document.getElementById('signup-signature')
                         .value;
 
@@ -45,7 +53,8 @@ angular.module('adminApp')
                     );
                 }
                 else {
-                    document.getElementById('signup-errors').innerHTML =
+                    document.getElementById('signup-errors')
+                        .innerHTML =
                         signup
                         .error;
                 }
