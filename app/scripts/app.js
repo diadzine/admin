@@ -30,6 +30,14 @@ angular
                 templateUrl: 'views/pub.html',
                 controller: 'PubCtrl'
             })
+            .when('/Skiclubs', {
+              templateUrl: 'views/skiclubs.html',
+              controller: 'SkiclubsCtrl'
+            })
+            .when('/Widgets', {
+              templateUrl: 'views/widgets.html',
+              controller: 'WidgetsCtrl'
+            })
             .otherwise({
                 redirectTo: '/'
             });
