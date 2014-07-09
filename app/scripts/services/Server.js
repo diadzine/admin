@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('adminApp')
-    .service('Server', function Server($http) {
+    .service('Server', function Server($http, $cookies, $location) {
         // AngularJS will instantiate a singleton by calling "new" on this function
 
         // this.Url = 'http://tooski.webfactional.com/api/';
@@ -27,5 +27,12 @@ angular.module('adminApp')
         this.setHeaders = function(key, value) {
             $http.defaults.headers.common[key] = value;
         };
+
+        if ($cookies.tooskiLogin) {
+            this.setHeaders('Authorization', $cookies.tooskiLogin);
+        }
+        else {
+            $location.path('#!/');
+        }
 
     });
