@@ -1,1 +1,8 @@
-<p>This is the Widgets view.</p>
+<div class="col-md-12" ng-repeat="(index, widget) in widgets">
+    <div class="col-md-4">
+        {{widget.content}}
+    </div>
+    <div class="col-md-5">
+        <p>{{widget.name}}</p>
+    </div>
+</div>

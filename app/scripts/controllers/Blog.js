@@ -53,8 +53,12 @@ angular.module('adminApp')
 
                 if (conf) {
                     Bloggers.delete(function(response) {
-                        bloggers = response;
-                        $scope.bloggers = response;
+                        var i;
+                        for (i = 0; i < $scope.bloggers.length; i++) {
+                            if ($scope.bloggers[i].id === blogger.id) {
+                                return $scope.bloggers.splice(i, 1);
+                            }
+                        }
                         $scope.select(bloggers[0].id);
                     }, blogger);
                 }
@@ -65,10 +69,15 @@ angular.module('adminApp')
                     blogger = $scope.blogger;
                 Bloggers.save(function(saved) {
                     Bloggers.getBlogger(function(response) {
-                        $scope.blogger = saved;
+                        var i;
+                        $scope.blogger = response;
                         $scope.activeBlogger = saved.id;
-                        bloggers = response;
-                        $scope.bloggers = bloggers;
+                        for (i = 0; i < $scope.bloggers.length; i++) {
+                            if ($scope.bloggers[i].id === blogger.id) {
+                                return $scope.bloggers[i] =
+                                    response;
+                            }
+                        }
                         BlogPosts.getPosts(function(response) {
                             $scope.blogPosts = response;
                         }, $scope.activeBlogger);

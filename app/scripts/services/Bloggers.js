@@ -3,7 +3,8 @@
 angular.module('adminApp')
     .factory('Bloggers', function($http, Server) {
         var blogs = [],
-            blogsUrl = Server.Url + 'blogs/bloggers/';
+            blogsUrl = Server.Url + 'blogs/bloggers/',
+            blogsApi = Server.Url + 'apiv1/bloggers/';
         var loadBloggers;
 
         loadBloggers = function(callback, id) {
@@ -39,48 +40,23 @@ angular.module('adminApp')
 
         return {
             getBlogger: function(callback, id) {
-                var getBlogger;
-                if (blogs.length < 1) {
-                    getBlogger = this.getBlogger;
-                    loadBloggers(function() {
-                        getBlogger(callback, id);
-                    });
-                }
-                else {
-                    if (id && angular.isNumber(id)) {
-                        var blogger = blogs.filter(function(el) {
-                            return el.id === parseInt(id);
+                var url = id ? blogsApi + id + '/' : blogsApi;
+                $http.get(url)
+                    .then(function(res) {
+                        var data = res.data;
+                        data = data.map(function(el) {
+                            el.ad = el.ad.split('|');
+                            el.sponsors = el.sponsors.split('|');
+                            return el;
                         });
-                        blogger = blogger[0] ? blogger[0] : {};
-                        callback(blogger);
-                    }
-                    else {
-                        callback(blogs);
-                    }
-                }
+                        callback(data);
+                    }, Server.errorHandler);
             },
 
             delete: function(callback, blogger) {
-                var id = blogger.id,
-                    deleteUrl = blogsUrl + 'delete/?id=' + id;
-                $http.get(deleteUrl)
-                    .success(function(response) {
-                        if (parseInt(response) === 0) {
-                            return alert(
-                                'La suppression a échoué du coté serveur.'
-                            );
-                        }
-                        var iter;
-                        for (iter = 0; iter < blogs.length; iter++) {
-                            if (blogs[iter].id === id) {
-                                blogs.splice(iter, 1);
-                                break;
-                            }
-                        }
-                        callback(blogs);
-
-                    })
-                    .error(Server.errorHandler);
+                var url = blogsApi + blogger.id + '/';
+                $http.delete(url)
+                    .then(callback, Server.errorHandler);
             },
 
             save: function(callback, id, blogger) {
@@ -95,35 +71,48 @@ angular.module('adminApp')
                     '|') : '';
                 data = jQuery.param(blogger);
 
-                $http({
-                    method: 'POST',
-                    url: saveUrl,
-                    data: data,
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                    },
-                })
-                    .success(function(response) {
-                        if (parseInt(response) === 0) {
-                            return alert(
-                                'Vous êtes déconnecter. Veuillez vous reconnecter pour sauver la News.'
-                            );
-                        }
-                        var saved = Server.processResponse(response)[0];
-                        if (id && angular.isNumber(id)) {
-                            for (iter = 0; iter < news.length; iter++) {
-                                if (blogs[iter].id === id) {
-                                    blogs[iter] = saved;
-                                    break;
-                                }
-                            }
-                        }
-                        else {
-                            blogs.push(saved);
-                        }
-                        callback(saved);
-                    })
-                    .error(Server.errorHandler);
+                var method = id === 0 ? 'post' : 'put',
+                    url = id === 0 ? blogsApi : blogsApi + id + '/';
+                $http[method](url, blogger)
+                    .then(function(res) {
+                        var data = res.data;
+                        data = data.map(function(el) {
+                            el.ad = el.ad.split('|');
+                            el.sponsors = el.sponsors.split('|');
+                            return el;
+                        });
+                        callback(data);
+                    }, Server.errorHandler);
+
+                // $http({
+                //     method: 'POST',
+                //     url: saveUrl,
+                //     data: data,
+                //     headers: {
+                //         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                //     },
+                // })
+                //     .success(function(response) {
+                //         if (parseInt(response) === 0) {
+                //             return alert(
+                //                 'Vous êtes déconnecter. Veuillez vous reconnecter pour sauver la News.'
+                //             );
+                //         }
+                //         var saved = Server.processResponse(response)[0];
+                //         if (id && angular.isNumber(id)) {
+                //             for (iter = 0; iter < news.length; iter++) {
+                //                 if (blogs[iter].id === id) {
+                //                     blogs[iter] = saved;
+                //                     break;
+                //                 }
+                //             }
+                //         }
+                //         else {
+                //             blogs.push(saved);
+                //         }
+                //         callback(saved);
+                //     })
+                //     .error(Server.errorHandler);
             },
 
         };

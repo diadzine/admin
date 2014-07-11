@@ -1,7 +1,7 @@
 <div class="row col-md-12">
 	<div class="col-md-9">
 		<ul class="nav nav-pills well well-sm" id="ts-nav-subbar-list">
-			<li class="{{{true: 'active', false: ''}[activeBlogger == b.id]}}" ng-repeat="b in bloggers">
+			<li class="{{{true: 'active', false: ''}[activeBlogger == b.id]}}" ng-repeat="b in bloggers track by b.id">
 				<a ng-click="select(b.id)" style="padding:5px;">{{b.name}}</a>
 			</li>
 		</ul>

@@ -4,7 +4,8 @@ angular.module('adminApp')
     .factory('Pages', function($http, Server) {
         var pages = [];
 
-        var pageUrl = Server.Url + 'pages/';
+        var pageUrl = Server.Url + 'pages/',
+            pageApi = Server.Url + 'apiv1/pages/';
         var loadPages;
         loadPages = function(callback) {
             $http.get(pageUrl, {
