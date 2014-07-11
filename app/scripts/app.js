@@ -38,6 +38,10 @@ angular
               templateUrl: 'views/widgets.html',
               controller: 'WidgetsCtrl'
             })
+            .when('/Angulation', {
+              templateUrl: 'views/angulation.html',
+              controller: 'AngulationCtrl'
+            })
             .otherwise({
                 redirectTo: '/'
             });
