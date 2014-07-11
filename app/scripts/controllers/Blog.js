@@ -47,8 +47,9 @@ angular.module('adminApp')
 
             $scope.deleteBlog = function() {
                 var conf = confirm(
-                    'Êtes-vous sûr de vouloir supprimer le blog ' + $scope.blogger
-                    .name + ' ?'),
+                        'Êtes-vous sûr de vouloir supprimer le blog ' +
+                        $scope.blogger
+                        .name + ' ?'),
                     blogger = $scope.blogger;
 
                 if (conf) {
@@ -99,6 +100,11 @@ angular.module('adminApp')
             $scope.changePortrait = function(url) {
                 $scope.blogger.profilePic = url;
             };
+
+            // This function should upload the picture and then modify directly the scope.blogger object.
+            $scope.changeHeader = function(url) {
+                $scope.blogger.header = url;
+            };
             // This function should upload the picture and then modify directly the scope.blogger object.
             $scope.addSponsors = function(url) {
                 $scope.blogger.sponsors.push(url);
@@ -142,8 +148,8 @@ angular.module('adminApp')
 
             $scope.deleteNews = function(postId) {
                 var conf = confirm(
-                    'Voulez-vous vraiment effacer le post n°' + postId +
-                    ' ?'),
+                        'Voulez-vous vraiment effacer le post n°' + postId +
+                        ' ?'),
                     blogId = $scope.activeBlogger;
                 if (conf) {
                     BlogPosts.delete(function(response) {
