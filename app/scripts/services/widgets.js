@@ -1,16 +1,26 @@
 'use strict';
 
 angular.module('adminApp')
-  .factory('Widgets', function () {
-    // Service logic
-    // ...
+    .factory('Widgets', function($http, Server) {
+        var widgetApi = Server.Url + 'apiv1/widgets/';
+        return {
+            get: function(callback) {
+                $http.get(widgetApi)
+                    .then(function(res) {
+                        callback(res.data);
+                    }, Server.errorHandler);
+            },
 
-    var meaningOfLife = 42;
-
-    // Public API here
-    return {
-      someMethod: function () {
-        return meaningOfLife;
-      }
-    };
-  });
+            save: function(id, content, name, callback) {
+                var url = widgetApi + id + '/',
+                    d = {
+                        content: content,
+                        name: name,
+                    };
+                $http.put(url, d)
+                    .then(function(res) {
+                        callback(res.data);
+                    }, Server.errorHandler);
+            }
+        };
+    });
