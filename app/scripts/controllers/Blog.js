@@ -3,161 +3,173 @@
 angular.module('adminApp')
     .controller('BlogCtrl', ['$scope', 'Bloggers', 'BlogPosts',
         function($scope, Bloggers, BlogPosts) {
-            var bloggers = [];
-            Bloggers.getBlogger(function(response) {
-                bloggers = response;
-
+            Bloggers.getBlogger(function(bloggers) {
                 $scope.bloggers = bloggers;
 
-                $scope.activeBlogger = bloggers[0].id;
-
-                $scope.blogger = bloggers[0];
-
-                BlogPosts.getPosts(function(response) {
-                    $scope.blogPosts = response;
-                }, $scope.activeBlogger);
-
-                $scope.currentNews = {
-                    date: parseInt(new Date()
-                        .getTime()),
-                    blogId: $scope.activeBlogger,
-                };
+                $scope.current = $scope.bloggers[0] || {};
             });
 
-            $scope.select = function(id) {
-                Bloggers.getBlogger(function(blogger) {
-                    $scope.activeBlogger = id;
-                    $scope.blogger = blogger;
-                    BlogPosts.getPosts(function(response) {
-                        $scope.blogPosts = response;
-                        $scope.currentNews = {
-                            date: parseInt(new Date()
-                                .getTime()),
-                            blogId: $scope.activeBlogger,
-                        };
-                    }, $scope.activeBlogger);
 
-                }, id);
+            /**
+             * Methods for Bloggers
+             *
+             */
+            $scope.selectBlogger = function(place) {
+                $scope.current = $scope.bloggers[place];
             };
 
-            $scope.addBlog = function() {
-                $scope.activeBlogger = 0;
-                $scope.blogger = {};
-            };
-
-            $scope.deleteBlog = function() {
-                var conf = confirm(
-                        'Êtes-vous sûr de vouloir supprimer le blog ' +
-                        $scope.blogger
-                        .name + ' ?'),
-                    blogger = $scope.blogger;
-
-                if (conf) {
-                    Bloggers.delete(function(response) {
+            $scope.saveBlogger = function(argument) {
+                var b = $scope.current;
+                if (b.id) {
+                    Bloggers.save(b, function(blogger) {
                         var i;
                         for (i = 0; i < $scope.bloggers.length; i++) {
-                            if ($scope.bloggers[i].id === blogger.id) {
+                            if (blogger.id === $scope.bloggers[i].id) {
+                                return $scope.bloggers[i] = blogger;
+                            }
+                        }
+                    });
+                }
+                else {
+                    Bloggers.add(b, function(blogger) {
+                        $scope.bloggers.push(blogger);
+                        $scope.current = blogger;
+                    });
+                }
+            };
+
+            $scope.addBlogger = function() {
+                $scope.current = {
+                    name: 'Nom',
+                    header: '',
+                    ad: [''],
+                    sponsors: [''],
+                    profilePic: '',
+                    biography: 'Biographie',
+                    linkResults: 'http://'
+                };
+                return $scope.current;
+            };
+
+            $scope.deleteBlogger = function() {
+                if (confirm('Voulez-vous vraiment supprimer le blogger: ' +
+                    $scope.current.name + ' ?')) {
+                    Bloggers.delete($scope.current, function() {
+                        var i;
+                        for (i = 0; i < $scope.bloggers.length; i++) {
+                            if ($scope.bloggers[i].id === $scope.current
+                                .id) {
+                                $scope.current = $scope.bloggers[0] ||
+                                    $scope.addBlogger();
                                 return $scope.bloggers.splice(i, 1);
                             }
                         }
-                        $scope.select(bloggers[0].id);
-                    }, blogger);
+                    });
                 }
             };
 
-            $scope.saveBlogger = function() {
-                var id = $scope.activeBlogger,
-                    blogger = $scope.blogger;
-                Bloggers.save(function(saved) {
-                    Bloggers.getBlogger(function(response) {
-                        var i;
-                        $scope.blogger = response;
-                        $scope.activeBlogger = saved.id;
-                        for (i = 0; i < $scope.bloggers.length; i++) {
-                            if ($scope.bloggers[i].id === blogger.id) {
-                                return $scope.bloggers[i] =
-                                    response;
-                            }
-                        }
-                        BlogPosts.getPosts(function(response) {
-                            $scope.blogPosts = response;
-                        }, $scope.activeBlogger);
-                    });
-                }, id, blogger);
+            $scope.changePortrait = function(url) {
+                $scope.current.profilePic = url;
+            };
+
+            $scope.changeHeader = function(url) {
+                $scope.current.header = url;
+            };
+            $scope.addSponsors = function(url) {
+                $scope.current.sponsors.push(url);
+            };
+            $scope.addAd = function(url) {
+                $scope.current.ad.push(url);
             };
 
             $scope.removeSponsor = function(sponsor) {
-                var pos = $scope.blogger.sponsors.indexOf(sponsor);
-                $scope.blogger.sponsors.splice(pos, 1);
+                var pos = $scope.current.sponsors.indexOf(sponsor);
+                $scope.current.sponsors.splice(pos, 1);
             };
 
             $scope.removeAd = function(ad) {
-                var pos = $scope.blogger.ad.indexOf(ad);
-                $scope.blogger.ad.splice(pos, 1);
+                var pos = $scope.current.ad.indexOf(ad);
+                $scope.current.ad.splice(pos, 1);
             };
 
-            // This function should upload the picture and then modify directly the scope.blogger object.
-            $scope.changePortrait = function(url) {
-                $scope.blogger.profilePic = url;
-            };
+            /**
+             * Methods for BlogPosts
+             */
 
-            // This function should upload the picture and then modify directly the scope.blogger object.
-            $scope.changeHeader = function(url) {
-                $scope.blogger.header = url;
-            };
-            // This function should upload the picture and then modify directly the scope.blogger object.
-            $scope.addSponsors = function(url) {
-                $scope.blogger.sponsors.push(url);
-            };
-            // This function should upload the picture and then modify directly the scope.blogger object.
-            $scope.addAd = function(url) {
-                $scope.blogger.ad.push(url);
-            };
+            $scope.$watch('current', function(value) {
+                if (!value || !value.id) {
+                    value = {
+                        id: 0,
+                    };
+                }
+                BlogPosts.get(value.id, function(posts) {
+                    $scope.blogPosts = posts;
+                    $scope.newPost();
+                })
+            });
 
-            $scope.addNews = function() {
-                $scope.currentNews = {
+            $scope.newPost = function() {
+                return $scope.currentPost = {
+                    title: '',
                     date: parseInt(new Date()
                         .getTime()),
-                    blogId: $scope.activeBlogger,
+                    content: '',
+                    blogId: $scope.current.id,
                 };
             };
 
-            $scope.modifyNews = function(post) {
-                $scope.currentNews = post;
-            };
-
             $scope.insertBlogImage = function(img) {
-                $scope.currentNews.content += '<img src="' + img +
-                    '" alt="' + $scope.currentNews.title + '" />';
+                $scope.currentPost.content += '<img src="' + img +
+                    '" alt="' + $scope.currentPost.title + '" />';
             };
 
-            $scope.saveNews = function() {
-                var post = $scope.currentNews,
-                    blogId = post.blogId;
-
-                post.date = post.date || parseInt(new Date()
-                    .getTime());
-
-                BlogPosts.save(function(saved) {
-                    BlogPosts.getPosts(function(response) {
-                        $scope.currentNews = saved;
-                        $scope.blogPosts = response;
-                    }, blogId);
-                }, post);
-            };
-
-            $scope.deleteNews = function(postId) {
-                var conf = confirm(
-                        'Voulez-vous vraiment effacer le post n°' + postId +
-                        ' ?'),
-                    blogId = $scope.activeBlogger;
-                if (conf) {
-                    BlogPosts.delete(function(response) {
-                        $scope.blogPosts = response;
-                    }, postId, blogId);
+            $scope.savePost = function() {
+                var p = $scope.currentPost,
+                    b = $scope.current;
+                if (!b.id) {
+                    return alert(
+                        'Il faut d\'abord créer le blogger et après écrire un post.'
+                    );
+                }
+                if (p.id) {
+                    BlogPosts.save(b.id, p, function(post) {
+                        var i;
+                        $scope.currentPost = post;
+                        for (i = 0; i < $scope.blogPosts.length; i++) {
+                            if ($scope.blogPosts[i].id === post.id) {
+                                $scope.blogPosts[i] = post;
+                            }
+                        }
+                    });
+                }
+                else {
+                    BlogPosts.add(b.id, p, function(post) {
+                        $scope.blogPosts.push(post);
+                        $scope.currentPost = post;
+                    });
                 }
             };
 
+            $scope.deletePost = function(place) {
+                var p = $scope.blogPosts[place],
+                    b = $scope.current;
+                if (confirm('Voulez-vous supprimer le post: ' + p.title +
+                    ' ?')) {
+                    BlogPosts.del(b.id, p.id, function() {
+                        $scope.blogPosts.splice(place, 1);
+                    });
+                }
+            };
+
+            $scope.selectPost = function(place) {
+                $scope.currentPost = $scope.blogPosts[place];
+            };
+
+
+            /**
+             * Options for TinyMCE
+             *
+             */
             $scope.tinymceOptionsBio = {
                 selector: '#bioContent',
                 theme: 'modern',
