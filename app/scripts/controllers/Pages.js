@@ -54,6 +54,11 @@ angular.module('adminApp')
                 $scope.modify(0);
             };
 
+            $scope.uploadedImage = function(img) {
+                $scope.tinyMceContent += '<img src="' + img + '" alt="' +
+                    $scope.currentTitle + '" />';
+            };
+
             $scope.tinymceOptions = {
                 selector: 'textarea',
                 theme: 'modern',
