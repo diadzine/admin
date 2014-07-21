@@ -3,33 +3,17 @@
 angular.module('adminApp')
     .controller('NewsCtrl', ['$scope', 'News',
         function($scope, News) {
-            var news = [],
-                date = new Date()
+            var date = new Date()
                 .getTime();
 
-            News.getNews(function(response) {
-                news = response;
-                $scope.news = news;
-            });
-
-            $scope.sendNews = function() {
-                var id = parseInt($scope.currentNews.id),
-                    title = $scope.currentNews.title,
-                    content = $scope.currentNews.content,
-                    date = $scope.currentNews.date,
-                    mag = document.getElementById('newsMag')
-                    .checked ? 1 : 0;
-                if (!(title ||  content || date)) {
-                    alert('Certains champs ne sont pas remplis.');
-                    return false;
-                }
-
-                News.save(function(response) {
-                    news = response;
-                    $scope.news = news;
-                }, title, content, date, id, mag);
-                $scope.addNews();
+            $scope.current = {
+                date: date,
+                content: '',
             };
+
+            News.get(function(response) {
+                $scope.news = response;
+            });
 
             $scope.uploadedImage = function(img) {
                 console.log(img);
@@ -37,41 +21,64 @@ angular.module('adminApp')
                     '" alt="' + $scope.currentNews.title + '" />';
             };
 
-            $scope.delete = function(newsId) {
-                var c = confirm('Voulez vous vraiment supprimer la News n°' +
-                    newsId + ' ?');
-                newsId = parseInt(newsId);
+            $scope.modify = function(place) {
+                $scope.current = $scope.news[place];
+            };
+
+            $scope.delete = function(place) {
+                var news = $scope.news[place];
+                var c = confirm('Voulez vous vraiment supprimer la News:\n' +
+                    news.title + ' ?');
                 if (c) {
-                    News.delete(function(response) {
-                        news = response;
-                        $scope.news = response;
-                    }, newsId);
+                    News.delete(news.id, function(response) {
+                        $scope.news.splice(place, 1);
+                    });
                 }
             };
 
             $scope.addNews = function() {
-                $scope.currentNews = {
+                $scope.current = {
                     date: date,
                     content: '',
-                    mag: 0
+                    mag: 0,
+                    id: 0,
                 };
                 document.getElementById('newsMag')
                     .checked = false;
-                $scope.sendText = 'Créer News';
             };
 
-            $scope.modify = function(newsId) {
-                News.getNews(function(response) {
-                    $scope.currentNews = response;
-                    $scope.sendText = 'Modifier News';
-                }, newsId);
+            $scope.sendNews = function() {
+                var i, news = $scope.current,
+                    date = document.getElementById('newsDate')
+                    .value.split('/');
+                news.mag = document.getElementById('newsMag')
+                    .checked ? 1 : 0;
+                news.date = (new Date(date[2], (date[1] - 1), date[0]))
+                    .toISOString();
+                news.author = 'CB Service';
+                if (!!news.id) {
+                    News.save(news, function() {
+                        for (i = 0; i < $scope.news.length; i++) {
+                            if ($scope.news[i].id === news.id) {
+                                return $scope.news[i] = news;
+                            }
+                        }
+                        $scope.addNews();
+                    });
+                }
+                else {
+                    News.add(news, function(data) {
+                        $scope.news.unshift(data);
+                        $scope.addNews();
+                    });
+                }
             };
 
-            $scope.sendText = 'Créer News';
-
-            $scope.currentNews = {
-                date: date,
-                content: '',
+            $scope.loadPage = function(page) {
+                News.get(function(data) {
+                    $scope.news = data;
+                    $scope.addNews();
+                }, page);
             };
 
             $scope.tinymceOptions = {
