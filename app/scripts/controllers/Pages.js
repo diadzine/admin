@@ -3,55 +3,61 @@
 angular.module('adminApp')
     .controller('PagesCtrl', ['$scope', 'Pages',
         function($scope, Pages) {
-            var pages = [];
+
+            $scope.current = {
+                id: 0,
+                name: '',
+                content: '',
+            };
+
             Pages.getPage(function(response) {
-                pages = response;
-                $scope.currentTitle = pages[0].name;
-                $scope.activePage = pages[0].id;
-                $scope.tinyMceContent = pages[0].content;
-                $scope.pages = pages;
+                $scope.pages = response;
             });
 
-            $scope.modify = function(id) {
-                Pages.getPage(function(response) {
-                    var page = response;
-                    $scope.currentTitle = page.name;
-                    $scope.activePage = page.id;
-                    $scope.tinyMceContent = page.content;
-                }, id);
+            $scope.modify = function(place) {
+                $scope.current = $scope.pages[place];
             };
 
             $scope.delete = function() {
-                var id = $scope.activePage,
+                var i, page = $scope.current,
                     conf = confirm(
-                        'Voulez-vous vraiment supprimer la news n°' +
-                        id + ' ?');
+                        'Voulez-vous vraiment supprimer la page: \n' +
+                        page.name + ' ?');
                 if (conf) {
-                    Pages.delete(function(response) {
-                        pages = response;
+                    Pages.delete(page.id, function(response) {
+                        for (i = 0; i < $scope.pages.length; i++) {
+                            if ($scope.pages[i].id === page.id) {
+                                $scope.modify(0);
+                                return $scope.pages.splice(i, 1);
+                            }
+                        }
                         $scope.modify(pages[0].id);
-                    }, id);
+                    });
                 }
                 return;
             };
 
             $scope.save = function() {
-                var page = {
-                    id: $scope.activePage,
-                    name: $scope.currentTitle,
-                    content: $scope.tinyMceContent,
-                };
-                Pages.save(function(saved) {
-                    Pages.getPage(function(response) {
-                        pages = response;
-                        $scope.pages = pages;
-                        $scope.modify(saved.id);
+                var page = $scope.current;
+
+                if (!!page.id) {
+                    Pages.save(page, function(data) {
+
                     });
-                }, page);
+                }
+                else {
+                    Pages.add(page, function(data) {
+                        $scope.pages.push(data);
+                    });
+                }
             };
 
             $scope.addPage = function() {
-                $scope.modify(0);
+                $scope.current = {
+                    id: 0,
+                    title: '',
+                    content: '',
+                };
             };
 
             $scope.uploadedImage = function(img) {

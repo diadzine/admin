@@ -2,112 +2,39 @@
 
 angular.module('adminApp')
     .factory('Pages', function($http, Server) {
-        var pages = [];
 
         var pageUrl = Server.Url + 'pages/',
             pageApi = Server.Url + 'apiv1/pages/';
-        var loadPages;
-        loadPages = function(callback) {
-            $http.get(pageUrl, {
-                cache: 'true'
-            })
-                .success(function(response) {
-                    var iter, filter;
-                    var processed = Server.processResponse(response);
-                    for (iter = 0; iter < processed.length; iter++) {
-                        filter = pages.some(function(el) {
-                            return JSON.stringify(el) === JSON.stringify(
-                                processed[iter]);
-                        });
-                        if (!filter) {
-                            pages.push(processed[iter]);
-                        }
-                    }
-                    callback(pages);
-                })
-                .error(Server.errorHandler);
-        };
 
         return {
             getPage: function(callback, id) {
-                var getPage;
-                if (pages.length < 1) {
-                    getPage = this.getPage;
-                    loadPages(function() {
-                        getPage(callback, id);
-                    });
-                }
-                else {
-                    if (id && angular.isNumber(id)) {
-                        var page = pages.filter(function(el) {
-                            return el.id === +id;
-                        })[0];
-                        page = page ? page : {};
-                        callback(page);
-                    }
-                    else {
-                        callback(pages);
-                    }
-                }
+                var url = id ? pageApi + id + '/' : pageApi;
+                $http.get(url)
+                    .then(function(res) {
+                        callback(res.data);
+                    }, Server.errorHandler);
             },
 
-            delete: function(callback, id) {
-                var deleteUrl = pageUrl + 'delete/?id=' + id;
-                $http.get(deleteUrl)
-                    .success(function(response) {
-                        var iter;
-                        if (parseInt(response) === 0) {
-                            alert('La suppression de la page a échoué.');
-                        }
-                        else {
-                            for (iter = 0; iter < pages.length; iter++) {
-                                if (pages[iter].id === id) {
-                                    pages.splice(iter, 1);
-                                    break;
-                                }
-                            }
-                            callback(pages);
-                        }
-                    })
-                    .error(Server.errorHandler);
+            delete: function(id, callback) {
+                var url = pageApi + id + '/';
+                $http.delete(url)
+                    .then(callback, Server.errorHandler);
             },
 
-            save: function(callback, page) {
-                var iter,
-                    id = page.id || 0,
-                    saveUrl = pageUrl + 'save/',
-                    save = this.save;
-                page.id = id;
+            add: function(page, callback) {
+                var url = pageApi;
+                $http.post(url, page)
+                    .then(function(res) {
+                        callback(res.data);
+                    }, Server.errorHandler);
+            },
 
-                $http({
-                    method: 'POST',
-                    url: saveUrl,
-                    data: jQuery.param(page),
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                    },
-                })
-                    .success(function(response) {
-                        if (parseInt(response) === 0) {
-                            return alert(
-                                'Vous êtes déconnecter. Veuillez vous reconnecter pour sauver la page.'
-                            );
-                        }
-                        var saved = Server.processResponse(response)[0];
-                        if (id && angular.isNumber(id)) {
-                            for (iter = 0; iter < pages.length; iter++) {
-                                if (pages[iter].id === id) {
-                                    pages[iter] = saved;
-                                    break;
-                                }
-                            }
-                        }
-                        else {
-                            pages.push(saved);
-                        }
-                        callback(saved);
-                    })
-                    .error(Server.errorHandler);
+            save: function(page, callback) {
+                var url = pageApi + page.id + '/';
+                $http.put(url, page)
+                    .then(function(res) {
+                        callback(res.data);
+                    }, Server.errorHandler);
             },
 
         };

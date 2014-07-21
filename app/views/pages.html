@@ -1,8 +1,8 @@
 <div class="row col-md-12">
 	<div class="col-md-10">
 		<ul class="nav nav-pills well well-sm" id="ts-nav-subbar-list">
-			<li class="{{{true: 'active', false: ''}[activePage == p.id]}}" ng-repeat="p in pages">
-				<a ng-click="modify(p.id)" style="padding:5px;">{{p.name}}</a>
+			<li class="{{{true: 'active', false: ''}[current.id == p.id]}}" ng-repeat="(index, p) in pages">
+				<a ng-click="modify(index)" style="padding:5px;" class="clickable">{{p.name}}</a>
 			</li>
 		</ul>
 	</div>
@@ -11,7 +11,7 @@
 <div class="col-md-12">
 	<div class="col-md-12 row">
 		<div class="col-md-4" style="display:inline;">
-			<input class="form-control" ng-model="currentTitle" palceholder="Nom de la page" />
+			<input class="form-control" ng-model="current.name" palceholder="Nom de la page" />
 		</div>
 		<div ts-image-upload="" callback="uploadedImage"></div>
 		<button ng-click="delete();" class="btn btn-danger pull-right" style="margin-left:5px;">Supprimer</button>
@@ -21,6 +21,6 @@
 	<br />
 	<br />
 	<form method="post" class="col-md-12">
-		<textarea id="pageContent" rows="100" ui-tinymce="tinymceOptions" ng-model="tinyMceContent">{{tinyMceContent}}</textarea>
+		<textarea id="pageContent" rows="100" ui-tinymce="tinymceOptions" ng-model="current.content">{{current.content}}</textarea>
 	</form>
 </div>
