@@ -68,7 +68,7 @@ angular.module('adminApp')
                     'insertdatetime media nonbreaking table contextmenu directionality',
                     'emoticons template paste textcolor'
                 ],
-                toolbar1: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media | forecolor backcolor emoticons',
+                toolbar1: 'undo redo | styleselect | fontselect | fontsizeselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media | forecolor backcolor emoticons',
                 image_advtab: true
             };
         }
