@@ -5,7 +5,7 @@ angular.module('adminApp')
         function($scope, News) {
             var news = [],
                 date = new Date()
-                    .getTime();
+                .getTime();
 
             News.getNews(function(response) {
                 news = response;
@@ -18,7 +18,7 @@ angular.module('adminApp')
                     content = $scope.currentNews.content,
                     date = $scope.currentNews.date,
                     mag = document.getElementById('newsMag')
-                        .checked ? 1 : 0;
+                    .checked ? 1 : 0;
                 if (!(title ||  content || date)) {
                     alert('Certains champs ne sont pas remplis.');
                     return false;
@@ -77,13 +77,14 @@ angular.module('adminApp')
             $scope.tinymceOptions = {
                 selector: '#newsContent',
                 theme: 'modern',
+                fontsize_formats: "8pt 9pt 10pt 11pt 12pt 26pt 36pt",
                 plugins: [
                     'advlist autolink lists link image charmap print preview hr anchor pagebreak',
                     'searchreplace wordcount visualblocks visualchars code fullscreen',
                     'insertdatetime media nonbreaking table contextmenu directionality',
                     'emoticons template paste textcolor'
                 ],
-                toolbar1: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media | forecolor backcolor emoticons',
+                toolbar1: 'undo redo | styleselect | fontselect | fontsizeselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media | forecolor backcolor emoticons',
                 image_advtab: true
             };
 
