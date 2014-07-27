@@ -22,7 +22,7 @@ angular.module('adminApp')
             };
 
             $scope.modify = function(place) {
-        $scope.current = $scope.news[place];
+                $scope.current = $scope.news[place];
             };
 
             $scope.delete = function(place) {

@@ -1,11 +1,5 @@
 'use strict';
 
-/**
- * TODO:
- * - Remove ads, as they are not needed anymore.
- * - Allow uncomplete bloggers to be posted
- * - Fix zip/unzip when no or only one image
- */
 angular.module('adminApp')
     .controller('BlogCtrl', ['$scope', 'Bloggers', 'BlogPosts',
         function($scope, Bloggers, BlogPosts) {
@@ -50,7 +44,7 @@ angular.module('adminApp')
                     header: 'images/site/tooski.png',
                     ad: ['images/site/tooski.png', ],
                     sponsors: ['images/site/tooski.png', ],
-                    profilePic: 'images/site/tooski.png',
+                    profilePic: 'images/site/profile.png',
                     biography: 'Biographie',
                     linkResults: 'http://'
                 };
