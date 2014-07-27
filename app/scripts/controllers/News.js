@@ -17,12 +17,12 @@ angular.module('adminApp')
 
             $scope.uploadedImage = function(img) {
                 console.log(img);
-                $scope.currentNews.content += '<img src="' + img +
-                    '" alt="' + $scope.currentNews.title + '" />';
+                $scope.current.content += '<img src="' + img +
+                    '" alt="' + $scope.current.title + '" />';
             };
 
             $scope.modify = function(place) {
-                $scope.current = $scope.news[place];
+        $scope.current = $scope.news[place];
             };
 
             $scope.delete = function(place) {
