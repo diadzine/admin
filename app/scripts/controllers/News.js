@@ -3,8 +3,7 @@
 angular.module('adminApp')
     .controller('NewsCtrl', ['$scope', 'News',
         function($scope, News) {
-            var date = new Date()
-                .getTime();
+            var date = new Date();
 
             $scope.current = {
                 date: date,
@@ -49,12 +48,18 @@ angular.module('adminApp')
 
             $scope.sendNews = function() {
                 var i, news = $scope.current,
-                    date = document.getElementById('newsDate')
+                    newsDate = document.getElementById('newsDate')
                     .value.split('/');
                 news.mag = document.getElementById('newsMag')
                     .checked ? 1 : 0;
-                news.date = (new Date(date[2], (date[1] - 1), date[0]))
+                news.date = (new Date(newsDate[2], (newsDate[1] - 1),
+                    newsDate[0]))
                     .toISOString();
+                if (news.date === (new Date(date.getYear(), date.getMonth(),
+                        date.getDay()))
+                    .toISOString()) {
+                    news.date = date.toISOString();
+                }
                 news.author = 'CB Service';
                 if (!!news.id) {
                     News.save(news, function() {

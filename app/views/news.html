@@ -47,7 +47,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="(index, n) in news | orderBy:'date':true">
+			<tr ng-repeat="(index, n) in news">
 				<td>{{n.title}}</td>
 				<td><a ng-click="modify(index);" class="btn btn-sm btn-primary">Modifier</a></td>
 				<td><a ng-click="delete(index);" class="btn btn-sm btn-danger">Supprimer</a></td>
