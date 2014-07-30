@@ -3,6 +3,7 @@
 angular.module('adminApp')
     .controller('BlogCtrl', ['$scope', 'Bloggers', 'BlogPosts',
         function($scope, Bloggers, BlogPosts) {
+            var date = new Date();
             Bloggers.getBlogger(function(bloggers) {
                 $scope.bloggers = bloggers;
 
@@ -100,6 +101,7 @@ angular.module('adminApp')
                 if (!value || !value.id) {
                     value = {
                         id: 0,
+                        date: date,
                     };
                 }
                 BlogPosts.get(value.id, function(posts) {
@@ -111,8 +113,7 @@ angular.module('adminApp')
             $scope.newPost = function() {
                 return $scope.currentPost = {
                     title: '',
-                    date: parseInt(new Date()
-                        .getTime()),
+                    date: date,
                     content: '',
                     blogId: $scope.current.id,
                 };
@@ -125,7 +126,17 @@ angular.module('adminApp')
 
             $scope.savePost = function() {
                 var p = $scope.currentPost,
-                    b = $scope.current;
+                    b = $scope.current,
+                    newsDate = document.getElementById('newsDate')
+                    .value.split('/');
+                p.date = (new Date(newsDate[2], (newsDate[1] - 1),
+                    newsDate[0]))
+                    .toISOString();
+                if (p.date === (new Date(date.getYear(), date.getMonth(),
+                        date.getDay()))
+                    .toISOString()) {
+                    p.date = date.toISOString();
+                }
                 if (!b.id) {
                     return alert(
                         'Il faut d\'abord créer le blogger et après écrire un post.'

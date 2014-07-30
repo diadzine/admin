@@ -31,7 +31,7 @@
 			</div>
 		</div>
 
-		<div class="col-md-12 row" style="margin-bottom:20px;">
+		<!-- <div class="col-md-12 row" style="margin-bottom:20px;">
 			<h4 class="col-md-3" style="display:inline;">En tête</h4>
 			<div class="col-md-5">
 				<div ts-image-upload="" callback="changeHeader"></div>
@@ -39,7 +39,7 @@
 			<div class="col-md-4">
 				<img ng-src="{{current.header}}" alt="Header du blogger" />
 			</div>
-		</div>
+		</div> -->
 
 		<div class="col-md-12 row" style="margin-bottom:20px;">
 			<h4 class="col-md-3" style="display:inline;">Portrait</h4>
@@ -123,7 +123,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="(index, n) in blogPosts | orderBy:'date':true">
+					<tr ng-repeat="(index, n) in blogPosts">
 						<td>{{n.title}}</td>
 						<td><a ng-click="selectPost(index);" class="btn btn-sm btn-primary">Modifier</a></td>
 						<td><a ng-click="deletePost(index);" class="btn btn-sm btn-danger">Supprimer</a></td>
