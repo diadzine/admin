@@ -61,8 +61,13 @@ angular.module('adminApp')
             };
 
             $scope.uploadedImage = function(img) {
-                $scope.tinyMceContent += '<img src="' + img + '" alt="' +
-                    $scope.currentTitle + '" />';
+                $scope.current.content += '<img src="' + img + '" alt="' +
+                    $scope.current.title + '" />';
+            };
+
+            $scope.uploadedFile = function(file) {
+                $scope.current.content += '<a href="' + file +
+                    '" >' + file + '</a>';
             };
 
             $scope.tinymceOptions = {
