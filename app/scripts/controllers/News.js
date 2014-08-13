@@ -5,6 +5,15 @@ angular.module('adminApp')
         function($scope, News) {
             var date = new Date();
 
+            $scope.pagination = (function() {
+                var i = 0,
+                    out = [];
+                for (i = 0; i <= 1000; i++) {
+                    out.push(i);
+                }
+                return out;
+            })();
+
             $scope.current = {
                 date: date,
                 content: '',

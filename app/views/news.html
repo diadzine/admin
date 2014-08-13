@@ -24,7 +24,7 @@
 
 			<div class="checkbox pull-right" style="display:inline;">
 				<label>
-				<input type="checkbox" id="newsMag" ng-checked="current.mag" /> Publier dans Mag &nbsp;&nbsp;
+					<input type="checkbox" id="newsMag" ng-checked="current.mag" /> Publier dans Mag &nbsp;&nbsp;
 				</label>
 			</div>
 		</div>
@@ -34,10 +34,13 @@
 <div class="col-md-12">
 	<hr width="75%" />
 
-	<p style="text-align:center;font-weight:bold;">
-	Page:
-		<a ng-repeat="i in [0,1,2,3,4,5,6,7,8,9,10]" class="clickable" ng-click="loadPage(i);" style="margin:3px;">{{i}}</a>
-	</p>
+	<form ng-submit="loadPage(pageToLoad);" style="display:inline;">
+		<p style="text-align:center;font-weight:bold;">
+			Page:
+			<a ng-repeat="i in [1,2,3,4,5,6,7,8,9,10]" class="clickable" ng-click="loadPage(i);" style="margin:3px;">{{i}}</a>
+			<input type="number" ng-model="pageToLoad" style="display:inline;width:50px;" />
+		</p>
+	</form>
 	<table class="table">
 		<thead>
 			<tr>
