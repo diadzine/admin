@@ -5,15 +5,6 @@ angular.module('adminApp')
         function($scope, News) {
             var date = new Date();
 
-            $scope.pagination = (function() {
-                var i = 0,
-                    out = [];
-                for (i = 0; i <= 1000; i++) {
-                    out.push(i);
-                }
-                return out;
-            })();
-
             $scope.current = {
                 date: date,
                 content: '',
@@ -64,8 +55,8 @@ angular.module('adminApp')
                 news.date = (new Date(newsDate[2], (newsDate[1] - 1),
                     newsDate[0]))
                     .toISOString();
-                if (news.date === (new Date(date.getYear(), date.getMonth(),
-                        date.getDay()))
+                if (news.date === (new Date(date.getFullYear(), date.getMonth(),
+                        date.getDate()))
                     .toISOString()) {
                     news.date = date.toISOString();
                 }

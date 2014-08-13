@@ -132,8 +132,8 @@ angular.module('adminApp')
                 p.date = (new Date(newsDate[2], (newsDate[1] - 1),
                     newsDate[0]))
                     .toISOString();
-                if (p.date === (new Date(date.getYear(), date.getMonth(),
-                        date.getDay()))
+                if (p.date === (new Date(date.getFullYear(), date.getMonth(),
+                        date.getDate()))
                     .toISOString()) {
                     p.date = date.toISOString();
                 }
