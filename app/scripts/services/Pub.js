@@ -50,5 +50,13 @@ angular.module('adminApp')
                     }, Server.errorHandler);
             },
 
+            modify: function(image, callback) {
+                var url = pubApi + image.id + '/'
+                $http.put(url, image)
+                    .then(function(res) {
+                        callback(res.data);
+                    });
+            },
+
         };
     });

@@ -28,10 +28,12 @@ angular.module('adminApp')
                 }
             });
 
-            modalInstance.result.then(function(image) {
-                console.log('save' + image.link);
-            }, function(image) {
-                $scope.removeImage(image);
+            modalInstance.result.then($scope.modifyImage, $scope.removeImage);
+        };
+
+        $scope.modifyImage = function(image) {
+            Pub.modify(image, function(data) {
+                refresh();
             });
         };
 
