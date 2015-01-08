@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('adminApp')
-    .controller('PubCtrl', function($scope, Pub) {
+    .controller('PubCtrl', function($scope, $modal, Pub) {
 
         var refresh = function() {
             Pub.getCat('vertical', function(data) {
@@ -12,6 +12,26 @@ angular.module('adminApp')
             });
             Pub.getCat('square', function(data) {
                 $scope.squares = data;
+            });
+        };
+
+        $scope.openEdit = function(image) {
+            var size = 'lg';
+            var modalInstance = $modal.open({
+                templateUrl: 'myModalContent.html',
+                controller: 'ModalInstanceCtrl',
+                size: size,
+                resolve: {
+                    items: function() {
+                        return image;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function(image) {
+                console.log('save' + image.link);
+            }, function(image) {
+                $scope.removeImage(image);
             });
         };
 
@@ -37,4 +57,18 @@ angular.module('adminApp')
         };
 
         refresh();
+    });
+
+angular.module('adminApp')
+    .controller('ModalInstanceCtrl', function($scope, $modalInstance, items) {
+
+        $scope.image = items;
+
+        $scope.save = function() {
+            $modalInstance.close($scope.image);
+        };
+
+        $scope.delete = function() {
+            $modalInstance.dismiss($scope.image);
+        };
     });

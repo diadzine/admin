@@ -7,6 +7,7 @@ angular
         'ngSanitize',
         'ngRoute',
         'ui.tinymce',
+        'ui.bootstrap',
     ])
     .config(function($routeProvider, $locationProvider) {
         $routeProvider
@@ -31,16 +32,16 @@ angular
                 controller: 'PubCtrl'
             })
             .when('/Skiclubs', {
-              templateUrl: 'views/skiclubs.html',
-              controller: 'SkiclubsCtrl'
+                templateUrl: 'views/skiclubs.html',
+                controller: 'SkiclubsCtrl'
             })
             .when('/Widgets', {
-              templateUrl: 'views/widgets.html',
-              controller: 'WidgetsCtrl'
+                templateUrl: 'views/widgets.html',
+                controller: 'WidgetsCtrl'
             })
             .when('/Angulation', {
-              templateUrl: 'views/angulation.html',
-              controller: 'AngulationCtrl'
+                templateUrl: 'views/angulation.html',
+                controller: 'AngulationCtrl'
             })
             .otherwise({
                 redirectTo: '/'
