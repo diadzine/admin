@@ -43,6 +43,10 @@ angular
                 templateUrl: 'views/angulation.html',
                 controller: 'AngulationCtrl'
             })
+            .when('/Classements', {
+              templateUrl: 'views/classements.html',
+              controller: 'ClassementsCtrl'
+            })
             .otherwise({
                 redirectTo: '/'
             });
