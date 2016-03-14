@@ -23,6 +23,9 @@ angular.module('adminApp')
                 size: size,
                 resolve: {
                     items: function() {
+                        if (image.placeholders != null) {
+                            image.placeholders = image.placeholders.split(",");
+                        }
                         return image;
                     }
                 }
@@ -48,21 +51,25 @@ angular.module('adminApp')
         $scope.save = function() {
             var ver = $scope.vertical || 0,
                 hor = $scope.horizontal || 0,
-                sq = $scope.square || 0;
-            Pub.save(angular.element('#newAd')[0]
-                .files[0],
-                ver, hor, sq,
-                function(data) {
+                sq = $scope.square || 0,
+                files = angular.element('#new-ad-upload-image')[0].files;
+            for (var i = 0; i < files.length; i++) {
+                Pub.save(files[i], ver, hor, sq, function(data) {
                     console.log(data);
                     refresh();
                 });
+            }
         };
 
         refresh();
     });
 
 angular.module('adminApp')
-    .controller('ModalInstanceCtrl', function($scope, $modalInstance, items) {
+    .controller('ModalInstanceCtrl', function($scope, $modalInstance, AdPlaceholder, items) {
+
+        AdPlaceholder.getAdsPlaceholders(function(data) {
+            $scope.placeholders = data;
+        });
 
         $scope.image = items;
 
@@ -71,6 +78,6 @@ angular.module('adminApp')
         };
 
         $scope.delete = function() {
-            $modalInstance.dismiss($scope.image);
+            $modalInstance.close($scope.image);
         };
     });

@@ -3,7 +3,7 @@
 angular.module('adminApp')
     .directive('tsImageUpload', function(Pictures) {
         return {
-            template: '<input style="display:inline;" type="file" multiple class="btn btn-warning" ng-model="upload" ng-change="uploadImage()" />',
+            template: '<input style="display:inline;" type="file" multiple class="btn btn-warning" ng-model="upload" callback="uploadImage()" id="new-ad-upload-image" />',
             restrict: 'EACM',
             replace: true,
             scope: {
