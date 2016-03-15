@@ -1,9 +1,21 @@
-<div class="col-md-12 row"><div class="col-md-6"><form class="form-inline"><input style="margin-bottom:30px" type="file" class="form-control col-md-6" id="newAd"></form></div><div class="col-md-6 row"><label><input type="checkbox" ng-model="vertical">Verticale</label><label><input type="checkbox" ng-model="horizontal">Horizontale</label><label><input type="checkbox" ng-model="square">Carrée</label><button class="btn btn-primary" ng-click="save()">Sauver</button></div></div><div class="col-md-12 row"><div class="col-md-4"><h2>Publicités Verticales</h2><div class="col-md-12" align="center"><img ng-repeat="v in verticals" ng-src="{{v.url}}" style="max-height:500px" ng-click="openEdit(v);" class="img-thumbnail"></div></div><div class="col-md-4"><h2>Publicités Horizontales</h2><div class="col-md-12" align="center"><img ng-repeat="h in horizontals" ng-src="{{h.url}}" ng-click="openEdit(h);" class="img-thumbnail"></div></div><div class="col-md-4"><h2>Publicités Carrés</h2><div class="col-md-12" align="center"><img ng-repeat="sq in squares" ng-src="{{sq.url}}" ng-click="openEdit(sq);" class="img-thumbnail"></div></div><script type="text/ng-template" id="myModalContent.html"><div class="modal-header">
+<div class="col-md-12 row"><div class="col-md-6"><form class="form-inline pull-right"><div ts-image-upload=""></div></form></div><div class="col-md-6 row"><label><input type="checkbox" ng-model="vertical">Verticale</label><label><input type="checkbox" ng-model="horizontal">Horizontale</label><label><input type="checkbox" ng-model="square">Carrée</label><button class="btn btn-primary" ng-click="save()">Sauver</button></div></div><div class="col-md-12 row"><div class="col-md-4"><h2>Publicités Verticales</h2><div class="col-md-12" align="center"><img ng-repeat="v in verticals" ng-src="{{v.url}}" style="max-height:500px" ng-click="openEdit(v);" class="img-thumbnail"></div></div><div class="col-md-4"><h2>Publicités Horizontales</h2><div class="col-md-12" align="center"><img ng-repeat="h in horizontals" ng-src="{{h.url}}" ng-click="openEdit(h);" class="img-thumbnail"></div></div><div class="col-md-4"><h2>Publicités Carrés</h2><div class="col-md-12" align="center"><img ng-repeat="sq in squares" ng-src="{{sq.url}}" ng-click="openEdit(sq);" class="img-thumbnail"></div></div><script type="text/ng-template" id="myModalContent.html"><div class="modal-header">
+            <button type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h3 class="modal-title">Modifier la pub</h3>
         </div>
         <div class="modal-body">
-        	<h4>Lien pour la pub:</h4>
-    		<input type="text" class="form-control" ng-model="image.link" />
+          <form>
+            <div class="form-group">
+            	<label for="image_link">Lien pour la pub:</label>
+        		  <input type="text" id="image_link" class="form-control" ng-model="image.link" />
+            </div>
+            <div class="form-group">
+              <label for="image_placeholders">Emplacement(s):</label>
+              <select id="image_placeholders" class="form-control" name="placeholders[]" multiple="multiple" ng-model="image.placeholders" ng-options="p.code as p.label for p in placeholders">
+                <option value="">Faites votre choix</option>
+              </select>
+              <p class="help-block">Ctrl+clic pour sélectionner plusieurs éléments.</p>
+            </div>
+          </form>
         </div>
         <div class="modal-footer">
             <button class="btn btn-warning" ng-click="delete()">Supprimer</button>
