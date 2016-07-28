@@ -1,4 +1,37 @@
-<div class="row col-md-12"><div class="col-md-9"><ul class="nav nav-pills well well-sm" id="ts-nav-subbar-list"><li class="{{{true: 'active', false: ''}[current.id == b.id]}}" ng-repeat="(index, b) in bloggers track by b.id"><a ng-click="selectBlogger(index)" class="clickable" style="padding:5px">{{b.name}}</a></li></ul></div><button ng-click="addBlogger();" class="btn btn-success">Nouveau blog</button> <button ng-click="deleteBlogger();" class="btn btn-danger">Supprimer</button></div><br><div class="col-md-12 row"><div class="col-md-6"><input type="button" ng-click="saveBlogger();" class="btn btn-primary btn-block" value="Mettre à jour" style="margin-bottom:20px"><div class="col-md-12 row" style="margin-bottom:20px"><h4 class="col-md-3" style="display:inline">Nom</h4><div class="col-md-9"><input type="text" class="form-control" ng-model="current.name"></div></div><div class="col-md-12 row" style="margin-bottom:20px"><h4 class="col-md-3" style="display:inline">Résultats</h4><div class="col-md-9"><input type="text" class="form-control" ng-model="current.linkResults"></div></div><!-- <div class="col-md-12 row" style="margin-bottom:20px;">
+ <div class="row col-md-12">
+	<div class="col-md-9">
+		<ul class="nav nav-pills well well-sm" id="ts-nav-subbar-list">
+			<li class="{{{true: 'active', false: ''}[current.id == b.id]}}" ng-repeat="(index, b) in bloggers track by b.id">
+				<a ng-click="selectBlogger(index)" class="clickable" style="padding:5px;">{{b.name}}</a>
+			</li>
+		</ul>
+	</div>
+	<button ng-click="addBlogger();" class="btn btn-success">Nouveau blog</button>
+	<button ng-click="deleteBlogger();" class="btn btn-danger">Supprimer</button>
+</div>
+
+<br />
+
+<div class="col-md-12 row">
+
+	<div class="col-md-6">
+		<input type="button" ng-click="saveBlogger();" class="btn btn-primary btn-block" value="Mettre à jour" style="margin-bottom:20px;" />
+
+		<div class="col-md-12 row" style="margin-bottom:20px;">
+			<h4 class="col-md-3" style="display:inline;">Nom</h4>
+			<div class="col-md-9">
+				<input type="text" class="form-control" ng-model="current.name" />
+			</div>
+		</div>
+
+		<div class="col-md-12 row" style="margin-bottom:20px;">
+			<h4 class="col-md-3" style="display:inline;">Résultats</h4>
+			<div class="col-md-9">
+				<input type="text" class="form-control" ng-model="current.linkResults" />
+			</div>
+		</div>
+
+		<!-- <div class="col-md-12 row" style="margin-bottom:20px;">
 			<h4 class="col-md-3" style="display:inline;">En tête</h4>
 			<div class="col-md-5">
 				<div ts-image-upload="" callback="changeHeader"></div>
@@ -6,7 +39,38 @@
 			<div class="col-md-4">
 				<img ng-src="{{current.header}}" alt="Header du blogger" />
 			</div>
-		</div> --><div class="col-md-12 row" style="margin-bottom:20px"><h4 class="col-md-3" style="display:inline">Portrait</h4><div class="col-md-5"><div ts-image-upload="" callback="changePortrait"></div></div><div class="col-md-4"><img ng-src="{{current.profilePic}}" alt="Image du blogger"></div></div><div class="col-md-12 row" style="margin-bottom:20px"><h4 class="col-md-3" style="display:inline">Biographie</h4><form method="post" class="col-md-9"><textarea id="bioContent" rows="5" ui-tinymce="tinymceOptionsBio" ng-model="current.biography">{{current.biography}}</textarea></form></div><div class="col-md-12" style="margin-bottom:20px"><div class="col-md-12 row"><h4 class="col-md-3" style="display:inline">Sponsors</h4><div class="col-md-9"><div ts-image-upload="" callback="addSponsors"></div></div></div><div class="col-md-10 row"><img ng-repeat="sponsor in current.sponsors" ng-src="{{sponsor}}" ng-click="removeSponsor(sponsor);" style="max-width:100px; max-height:100px"></div></div><!-- <div class="col-md-12" style="margin-bottom:20px;">
+		</div> -->
+
+		<div class="col-md-12 row" style="margin-bottom:20px;">
+			<h4 class="col-md-3" style="display:inline;">Portrait</h4>
+			<div class="col-md-5">
+				<div ts-image-upload="" callback="changePortrait"></div>
+			</div>
+			<div class="col-md-4">
+				<img ng-src="{{current.profilePic}}" alt="Image du blogger" />
+			</div>
+		</div>
+
+		<div class="col-md-12 row" style="margin-bottom:20px;">
+			<h4 class="col-md-3" style="display:inline;">Biographie</h4>
+			<form method="post" class="col-md-9">
+				<textarea id="bioContent" rows="5" ui-tinymce="tinymceOptionsBio" ng-model="current.biography">{{current.biography}}</textarea>
+			</form>
+		</div>
+
+		<div class="col-md-12" style="margin-bottom:20px;">
+			<div class="col-md-12 row">
+				<h4 class="col-md-3" style="display:inline;">Sponsors</h4>
+				<div class="col-md-9">
+					<div ts-image-upload="" callback="addSponsors"></div>
+				</div>
+			</div>
+			<div class="col-md-10 row">
+				<img ng-repeat="sponsor in current.sponsors" ng-src="{{sponsor}}" ng-click="removeSponsor(sponsor);" style="max-width:100px; max-height:100px;" />
+			</div>
+		</div>
+
+		<!-- <div class="col-md-12" style="margin-bottom:20px;">
 			<div class="col-md-12 row">
 				<h4 class="col-md-3" style="display:inline;">Publicité</h4>
 				<div class="col-md-9">
@@ -16,4 +80,58 @@
 			<div class="col-md-10 row">
 				<img ng-repeat="ad in current.ad" ng-src="{{ad}}" ng-click="removeAd(ad);" style="max-width:100px; max-height:100px;" />
 			</div>
-		</div> --><p><strong>Note: Toutes les entrées doivent avoir une valeur pour qu'un blog puisse être créé.</strong></p></div><div class="col-md-6" style="border-left:solid gray 1px"><div class="col-md-12 row"><div class="col-md-6"><input type="text" ng-model="currentPost.title" class="form-control" id="newsTitle" placeholder="Titre de la News"></div><div class="col-md-3"><input type="text" class="form-control" size="10" id="newsDate" value="{{currentPost.date | date:'dd/MM/yyyy'}}"></div><button class="btn btn-info pull-right" ng-click="newPost();">Nouvelle News</button></div><br><br><br><div class="col-md-12"><form method="post"><textarea id="newsContent" rows="20" ui-tinymce="tinymceOptionsNews" ng-model="currentPost.content">{{tinyMceContent}}</textarea><br><div class="row col-md-12"><div ts-image-upload="" callback="insertBlogImage"></div><button type="submit" id="newsSend" ng-click="savePost();" class="btn btn-info pull-right">Envoyer</button></div><input type="hidden" id="newsId" ng-model="currentPost.id"></form></div><div class="col-md-12"><hr width="75%"><table class="table"><thead><tr><th>Titre<th>Modifier<th>Supprimer<tbody><tr ng-repeat="(index, n) in blogPosts"><td>{{n.title}}<td><a ng-click="selectPost(index);" class="btn btn-sm btn-primary">Modifier</a><td><a ng-click="deletePost(index);" class="btn btn-sm btn-danger">Supprimer</a></table></div></div></div>
+		</div> -->
+
+		<p><strong>Note: Toutes les entrées doivent avoir une valeur pour qu'un blog puisse être créé.</strong></p>
+	</div>
+
+	<div class="col-md-6" style="border-left:solid gray 1px;">
+		<div class="col-md-12 row">
+			<div class="col-md-6">
+				<input type="text" ng-model="currentPost.title" class="form-control" id="newsTitle" placeholder="Titre de la News" />
+			</div>
+			<div class="col-md-3">
+				<input type="text" class="form-control" size="10" id="newsDate" value="{{currentPost.date | date:'dd/MM/yyyy'}}" />
+			</div>
+			<button class="btn btn-info pull-right" ng-click="newPost();">Nouvelle News</button>
+		</div>
+
+		<br />
+		<br />
+		<br />
+
+		<div class="col-md-12">
+			<form method="post">
+				<textarea id="newsContent" rows="20" ui-tinymce="tinymceOptionsNews" ng-model="currentPost.content">{{tinyMceContent}}</textarea>
+				<br />
+				<div class="row col-md-12">
+					<div ts-image-upload="" callback="insertBlogImage"></div>
+
+					<button type="submit" id="newsSend" ng-click="savePost();" class="btn btn-info pull-right">Envoyer</button>
+				</div>
+				<input type="hidden" id="newsId" ng-model="currentPost.id" />
+			</form>
+		</div>
+		<div class="col-md-12">
+			<hr width="75%" />
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Titre</th>
+						<th>Modifier</th>
+						<th>Supprimer</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="(index, n) in blogPosts">
+						<td>{{n.title}}</td>
+						<td><a ng-click="selectPost(index);" class="btn btn-sm btn-primary">Modifier</a></td>
+						<td><a ng-click="deletePost(index);" class="btn btn-sm btn-danger">Supprimer</a></td>
+					</tr>
+				</tbody>
+			</table>
+
+		</div>
+
+	</div>
+</div>

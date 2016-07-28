@@ -13,7 +13,7 @@ angular.module('ui.tinymce', [])
 
     return {
       require: ['ngModel', '^?form'],
-      priority: 999,
+      priority: 599,
       link: function(scope, element, attrs, ctrls) {
         if (!$window.tinymce) {
           return;
@@ -22,7 +22,9 @@ angular.module('ui.tinymce', [])
         var ngModel = ctrls[0],
           form = ctrls[1] || null;
 
-        var expression, options = {}, tinyInstance,
+        var expression, options = {
+          debounce: true
+        }, tinyInstance,
           updateView = function(editor) {
             var content = editor.getContent({format: options.format}).trim();
             content = $sce.trustAsHtml(content);
@@ -63,8 +65,10 @@ angular.module('ui.tinymce', [])
 	        $timeout.cancel(debouncedUpdateTimer);
 	         debouncedUpdateTimer = $timeout(function() {
               return (function(ed) {
-                ed.save();
-                updateView(ed);
+                if (ed.isDirty()) {
+                  ed.save();
+                  updateView(ed);
+                }
               })(ed);
             }, debouncedUpdateDelay);
           };
@@ -77,7 +81,7 @@ angular.module('ui.tinymce', [])
             ed.on('init', function() {
               ngModel.$render();
               ngModel.$setPristine();
-              ngModel.$setUntouched();
+                ngModel.$setUntouched();
               if (form) {
                 form.$setPristine();
               }
@@ -89,18 +93,31 @@ angular.module('ui.tinymce', [])
             // - the node has changed [NodeChange]
             // - an object has been resized (table, image) [ObjectResized]
             ed.on('ExecCommand change NodeChange ObjectResized', function() {
+              if (!options.debounce) {
+                ed.save();
+                updateView(ed);
+              	return;
+              }
               debouncedUpdate(ed);
             });
 
             ed.on('blur', function() {
               element[0].blur();
               ngModel.$setTouched();
-              scope.$digest();
+              if (!$rootScope.$$phase) {
+                scope.$digest();
+              }
             });
 
             ed.on('remove', function() {
               element.remove();
             });
+
+            if (uiTinymceConfig.setup) {
+              uiTinymceConfig.setup(ed, {
+                updateView: updateView
+              });
+            }
 
             if (expression.setup) {
               expression.setup(ed, {
