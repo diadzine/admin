@@ -1,6 +1,8 @@
 {
   "bower_components/angular-bootstrap/ui-bootstrap-tpls.js": "bower_components/angular-bootstrap/ui-bootstrap-tpls-fbc3572f69.js",
   "bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js": "bower_components/angular-bootstrap/ui-bootstrap-tpls-a43e016dc5.min.js",
+  "bower_components/angular-bootstrap/ui-bootstrap.js": "bower_components/angular-bootstrap/ui-bootstrap-22269eee59.js",
+  "bower_components/angular-bootstrap/ui-bootstrap.min.js": "bower_components/angular-bootstrap/ui-bootstrap-b6d841e292.min.js",
   "bower_components/angular/angular-csp.css": "bower_components/angular/angular-csp-5d7bf1728c.css",
   "bower_components/angular/angular.js": "bower_components/angular/angular-fea9454370.js",
   "bower_components/angular/angular.min.js": "bower_components/angular/angular-c8ddded85c.min.js",
