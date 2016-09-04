@@ -60,7 +60,9 @@ angular.module('adminApp')
                 },
 
             };
-        }).factory('AdPlaceholder', function($http, Server) {
+        }
+    ]).factory('AdPlaceholder', ['$http', 'Server',
+        function($http, Server) {
             var pubApi = Server.Url + 'apiv1/ads/placeholders/';
 
             return {
