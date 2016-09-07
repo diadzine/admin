@@ -39,7 +39,7 @@ gulp.task('bower', function() { 
 });
 
 gulp.task('bower-components', function() { 
-    return gulp.src(config.htmlPath + '/bower_components/**/*')
+    return gulp.src(config.bowerDir + '/**/*')
          .pipe(gulp.dest(config.buildPath + '/bower_components')) ;
 });
 
