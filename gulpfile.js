@@ -18,7 +18,7 @@ var config = {
 gulp.task('connectDev', function () {
   $.connect.server({
     root: ['app', 'tmp'],
-    port: 8001,
+    port: 8081,
     livereload: true
   });
 });
@@ -26,7 +26,7 @@ gulp.task('connectDev', function () {
 gulp.task('connectDist', function () {
   $.connect.server({
     root: 'dist',
-    port: 8002,
+    port: 8082,
     livereload: true
   });
 });
