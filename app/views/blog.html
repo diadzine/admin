@@ -66,7 +66,7 @@
 				</div>
 			</div>
 			<div class="col-md-10 row">
-				<img ng-repeat="sponsor in current.sponsors" ng-src="{{sponsor}}" ng-click="removeSponsor(sponsor);" style="max-width:100px; max-height:100px;" />
+				<img ng-repeat="sponsor in current.sponsors track by $index" ng-src="{{sponsor}}" ng-click="removeSponsor(sponsor);" style="max-width:100px; max-height:100px;" />
 			</div>
 		</div>
 
