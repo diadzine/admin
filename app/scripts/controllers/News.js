@@ -15,7 +15,6 @@ angular.module('adminApp')
             });
 
             $scope.uploadedImage = function(img) {
-                console.log(img);
                 $scope.current.content += '<img src="' + img +
                     '" alt="' + $scope.current.title + '" />';
             };

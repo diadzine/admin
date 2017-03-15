@@ -151,7 +151,7 @@ gulp.task('watch', function () {
     gulp.watch([config.sassPath + '/**/*.scss'], ['styles']);
 
     // Watch .js files
-    // gulp.watch(config.jsPath + '/**/*.js', ['scripts']);
+    gulp.watch(config.jsPath + '/**/*.js', ['html']);
 });
 
 gulp.task('clean-cache', function () {
