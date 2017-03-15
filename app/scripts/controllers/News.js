@@ -41,16 +41,13 @@ angular.module('adminApp')
                     mag: 0,
                     id: 0,
                 };
-                document.getElementById('newsMag')
-                    .checked = false;
             };
 
             $scope.sendNews = function() {
                 var i, news = $scope.current,
                     newsDate = document.getElementById('newsDate')
                     .value.split('/');
-                news.mag = document.getElementById('newsMag')
-                    .checked ? 1 : 0;
+                news.mag = 0;
                 news.date = (new Date(newsDate[2], (newsDate[1] - 1),
                     newsDate[0]))
                     .toISOString();
