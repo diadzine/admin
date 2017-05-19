@@ -1,4 +1,7 @@
 {
+  "bower_components/angular/angular-csp.css": "bower_components/angular/angular-csp-5d7bf1728c.css",
+  "bower_components/angular/angular.js": "bower_components/angular/angular-fea9454370.js",
+  "bower_components/angular/angular.min.js": "bower_components/angular/angular-c8ddded85c.min.js",
   "scripts/scripts.js": "scripts/scripts-00ec86b659.js",
   "scripts/vendor.js": "scripts/vendor-084bbdd1a1.js",
   "styles/main.css": "styles/main-c6a484a99c.css",
